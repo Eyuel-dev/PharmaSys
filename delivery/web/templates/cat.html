@@ -1,0 +1,15 @@
+{{ define "cat-content" }}
+<h1>Products</h1>
+
+    {{ range . }}
+    <ul>
+    <li>
+        {{ .Name }}
+        <img src="assets/img/{{ .Image }}" alt="pic">
+       
+    </li>
+</ul>
+
+{{ end }}
+
+{{ end }}

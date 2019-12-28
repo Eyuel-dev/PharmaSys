@@ -1,0 +1,23 @@
+body {
+    margin: 0 auto;
+}
+
+img{
+    float: left;
+    border-radius: 5em;
+    margin-left: 100px;
+    margin-right: 150px;
+}
+
+form{
+    display: inline;
+}
+
+ul li a{
+    margin-right: 50px;
+    color: rgb(28, 28, 138);
+}
+
+nav {
+    background-color: white;
+}

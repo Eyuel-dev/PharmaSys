@@ -1,0 +1,26 @@
+{{ define "content" . }}
+<head>
+    <title>CareFirst</title>
+    <link rel="stylesheet" href="../assets/css/index.css">
+</head>
+<body>
+<table>
+        {{ range . }}
+    <tr>
+        <td>
+            <img src="assets/img/products/oral/{{.Image}}" alt="dental floss">
+            <p>Dental Floss</p>
+        </td>
+        <td>
+            <img src="assets/img/products/diabetes/glic.jpg" alt="Glic">
+            <p>Gliclazide, 80mg</p>
+        </td>
+        <td>
+            <img src="assets/img/products/eye drops/systaneye.jpg" alt="Systane">
+            <p>Systane, dry eye therapy, 15ml </p>
+        </td>
+    </tr>
+</table>
+
+
+{{ end }}
