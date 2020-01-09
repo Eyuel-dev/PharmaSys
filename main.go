@@ -73,6 +73,32 @@ func abt(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "about.layout", nil)
 }
 
+func authorize(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		// name :=
+		// pass := r.FormValue("pass")
+		sqlStatement := "Select username, password from admins"
+		row, err := db.Query(sqlStatement)
+		if err != nil {
+			panic(err)
+		}
+		var n string
+		var p string
+
+		err = row.Scan(&n, &p)
+		if err != nil {
+			fmt.Println("No rows were returned!")
+		} else if r.FormValue("user") == n && r.FormValue("pass") == p {
+			// http.Redirect(w, r, "/delivery/web/templates/index.layout", http.StatusFound)
+			fmt.Printf("Hello %s", n)
+		} else {
+			fmt.Println("Wrong user or password")
+
+		}
+
+	}
+}
+
 func dbConn() (db *sql.DB) {
 	db, err := sql.Open("postgres", "postgres://postgres:8811@localhost/productsdb?sslmode=disable")
 
@@ -129,6 +155,7 @@ func main() {
 	http.HandleFunc("/categories", cats)
 	http.HandleFunc("/about", abt)
 	http.HandleFunc("/login", login)
+	http.HandleFunc("/auth", authorize)
 	http.ListenAndServe(":8080", nil)
 
 	db.Close()
