@@ -65,6 +65,9 @@ func cats(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func login(w http.ResponseWriter, r *http.Request) {
+	tmpl.ExecuteTemplate(w, "login.html", nil)
+}
 
 func abt(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "about.layout", nil)
@@ -125,6 +128,7 @@ func main() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/categories", cats)
 	http.HandleFunc("/about", abt)
+	http.HandleFunc("/login", login)
 	http.ListenAndServe(":8080", nil)
 
 	db.Close()

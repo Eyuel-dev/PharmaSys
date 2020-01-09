@@ -12,6 +12,8 @@ type ProdRepositoryImpl struct {
 	conn *sql.DB
 }
 
+
+
 // NewProdRepositoryImpl will create an object of PsqlProdRepository
 func NewProdRepositoryImpl(Conn *sql.DB) *ProdRepositoryImpl {
 	return &ProdRepositoryImpl{conn: Conn}
