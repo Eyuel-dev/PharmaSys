@@ -25,12 +25,6 @@ type prods struct {
 	Image string
 }
 
-type user struct {
-	Id       int
-	username string
-	password string
-}
-
 func index(w http.ResponseWriter, r *http.Request) {
 	//products, err := prodService.Products()
 	// if err != nil {
@@ -88,14 +82,13 @@ func auth(w http.ResponseWriter, r *http.Request) {
 		var password string
 		sqlStatement := `SELECT username, password FROM admins WHERE username = $1 AND password = $2;`
 		row := db.QueryRow(sqlStatement, name, pass)
-		// if err != nil {
-		// 	panic(err)
-		// }
+		if row == nil {
+			fmt.Println("No rows were selected")
+		}
 		row.Scan(&username, &password)
 		if username == name && password == pass {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 			fmt.Printf("Hello %s", username)
-
 		}
 	}
 }
@@ -109,9 +102,9 @@ func search(w http.ResponseWriter, r *http.Request) {
 		item = r.FormValue(key)
 		sqlStatement := `SELECT id, name, description, price, image FROM products WHERE name = $1;`
 		row := db.QueryRow(sqlStatement, item)
-		// if err != nil {
-		// 	panic(err)
-		//}
+		if row == nil {
+			fmt.Println("No rows were selected")
+		}
 		var itemID int
 		var itemName string
 		var itemDesc string
