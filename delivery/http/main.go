@@ -7,14 +7,12 @@ import (
 	"net/http"
 
 	_ "github.com/lib/pq"
-	// "fmt"
-	//"gitlab.com/username/CareFirst/entity"
-	//"gitlab.com/username/CareFirst/menu/services"
+	"gitlab.com/username/CareFirst/delivery/http/handler"
 )
 
 // var categoryService *services.CategoryService
 // var prodService *services.ProductService
-var tmpl = template.Must(template.ParseGlob("delivery/web/templates/*"))
+
 var db *sql.DB
 
 type prods struct {
@@ -23,102 +21,6 @@ type prods struct {
 	Descr string
 	Price string
 	Image string
-}
-
-func index(w http.ResponseWriter, r *http.Request) {
-	//products, err := prodService.Products()
-	// if err != nil {
-	// 	panic(err)
-	// }
-	tmpl.ExecuteTemplate(w, "index.layout", nil)
-}
-
-func cats(w http.ResponseWriter, r *http.Request) {
-	//categories, err := categoryService.Categories()
-	ps := make([]prods, 0)
-	sqlStatement := `SELECT id, name, description, price, image FROM products limit $1;`
-	row, err := db.Query(sqlStatement, 4)
-	if err != nil {
-		panic(err)
-	}
-	defer row.Close()
-	for row.Next() {
-		var name string
-		var id int
-		var descr string
-		var price string
-		var img string
-		err = row.Scan(&id, &name, &descr, &price, &img)
-		if err != nil {
-			fmt.Println("No rows were returned!")
-		}
-		pros := prods{id, name, descr, price, img}
-		ps = append(ps, pros)
-		fmt.Println(pros)
-
-	}
-	tmpl.ExecuteTemplate(w, "cat.layout", ps)
-	err = row.Err()
-	if err != nil {
-		panic(err)
-	}
-
-}
-
-func login(w http.ResponseWriter, r *http.Request) {
-	tmpl.ExecuteTemplate(w, "login.html", nil)
-}
-
-func abt(w http.ResponseWriter, r *http.Request) {
-	tmpl.ExecuteTemplate(w, "about.layout", nil)
-}
-
-func auth(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
-		r.ParseForm()
-		name := r.FormValue("user")
-		pass := r.FormValue("pass")
-		var username string
-		var password string
-		sqlStatement := `SELECT username, password FROM admins WHERE username = $1 AND password = $2;`
-		row := db.QueryRow(sqlStatement, name, pass)
-		if row == nil {
-			fmt.Println("No rows were selected")
-		}
-		row.Scan(&username, &password)
-		if username == name && password == pass {
-			http.Redirect(w, r, "/", http.StatusSeeOther)
-			fmt.Printf("Hello %s", username)
-		}
-	}
-}
-
-func search(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		ps := make([]prods, 0)
-		r.ParseForm()
-		key := "search"
-		var item string
-		item = r.FormValue(key)
-		sqlStatement := `SELECT id, name, description, price, image FROM products WHERE name = $1;`
-		row := db.QueryRow(sqlStatement, item)
-		if row == nil {
-			fmt.Println("No rows were selected")
-		}
-		var itemID int
-		var itemName string
-		var itemDesc string
-		var itemImg string
-		var itemPrc string
-		row.Scan(&itemID, &itemName, &itemDesc, &itemPrc, &itemImg)
-		srcItem := prods{itemID, itemName, itemDesc, itemPrc, itemImg}
-		ps = append(ps, srcItem)
-		if itemName == item {
-			tmpl.ExecuteTemplate(w, "search.html", ps)
-		} else {
-			tmpl.ExecuteTemplate(w, "search.html", "Item not found")
-		}
-	}
 }
 
 func dbConn() (db *sql.DB) {
@@ -170,15 +72,16 @@ func main() {
 	// prodServ := services.NewProdServiceImpl(prodRepo)
 
 	// prodHandler := handler.NewAdminProductHandler(tmpl, prodServ)
-
+	var tmpl = template.Must(template.ParseGlob("ui/templates/*"))
+	tHandler := handler.newTempHandler(tmpl)
 	fs := http.FileServer(http.Dir("delivery/web/assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
-	http.HandleFunc("/", index)
-	http.HandleFunc("/categories", cats)
-	http.HandleFunc("/about", abt)
-	http.HandleFunc("/login", login)
-	http.HandleFunc("/auth", auth)
-	http.HandleFunc("/search", search)
+	http.HandleFunc("/", tHandler.index)
+	http.HandleFunc("/categories", tHandler.cat)
+	http.HandleFunc("/about", tHandler.abt)
+	http.HandleFunc("/login", tHandler.login)
+	http.HandleFunc("/auth", tHandler.auth)
+	http.HandleFunc("/search", tHandler.search)
 	http.ListenAndServe(":8080", nil)
 
 	db.Close()
