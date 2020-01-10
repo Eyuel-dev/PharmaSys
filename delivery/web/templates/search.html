@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title></title>
-    </head>
-    <body>
-        {{ . }}
-        <!-- {{ range . }}
+{{ template "navbar" }}
+        {{ range . }}
         <p> {{ .Id}} {{ .Name }}</p>
         <p>{{ .Descr }} </p>
         <p>{{ .Price }}</p>
         <img src="assets/img/products/{{ .Image }}" alt="">
-        {{ end }} -->
+        {{ end }}
     </body>
-</html>
+{{ template "footer"}}
 

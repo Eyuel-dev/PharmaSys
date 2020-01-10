@@ -96,6 +96,7 @@ func auth(w http.ResponseWriter, r *http.Request) {
 
 func search(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
+		ps := make([]prods, 0)
 		r.ParseForm()
 		key := "search"
 		var item string
@@ -112,9 +113,10 @@ func search(w http.ResponseWriter, r *http.Request) {
 		var itemPrc string
 		row.Scan(&itemID, &itemName, &itemDesc, &itemPrc, &itemImg)
 		fmt.Println(itemName)
-		//srcItem := prods{itemID, itemName, itemDesc, itemPrc, itemImg}
+		srcItem := prods{itemID, itemName, itemDesc, itemPrc, itemImg}
+		ps = append(ps, srcItem)
 		if itemName == item {
-			tmpl.ExecuteTemplate(w, "search.html", itemName)
+			tmpl.ExecuteTemplate(w, "search.html", ps)
 		} else {
 			tmpl.ExecuteTemplate(w, "search.html", "Item not found")
 		}
