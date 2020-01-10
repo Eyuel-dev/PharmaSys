@@ -71,7 +71,6 @@ func (ach *AdminProductHandler) Getsingleproduct(w http.ResponseWriter, r *http.
 	
 }
 func (ach *AdminProductHandler) Updateproduct(w http.ResponseWriter, r *http.Request) {
-	func (ach *AdminCommentHandler) PutComment(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	l := r.ContentLength
 
