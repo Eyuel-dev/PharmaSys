@@ -47,7 +47,7 @@ func (ach *AdminProductHandler) Getsingleproduct(w http.ResponseWriter, r *http.
 		return
 	}
 
-	prods, err := ach.prodSrv.Product(id)
+	prodc, err := ach.prodSrv.Product(id)
 	
 
 	if len(errs) > 0 {
@@ -56,7 +56,7 @@ func (ach *AdminProductHandler) Getsingleproduct(w http.ResponseWriter, r *http.
 		return
 	}
 
-	output, err := json.MarshalIndent(comment, "", "\t\t")
+	output, err := json.MarshalIndent(prodc, "", "\t\t")
 
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
@@ -71,3 +71,35 @@ func (ach *AdminProductHandler) Getsingleproduct(w http.ResponseWriter, r *http.
 	
 }
 func (ach *AdminProductHandler) Updateproduct(w http.ResponseWriter, r *http.Request) {
+	func (ach *AdminCommentHandler) PutComment(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	l := r.ContentLength
+
+	body := make([]byte, l)
+
+	r.Body.Read(body)
+
+	json.Unmarshal(body, &prodct)
+
+	prodct, err := ach.prodSrv.Updateproduct(prodct)
+
+	if len(errs) > 0 {
+		w.Header().Set("Content-Type", "application/json")
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+
+	output, err := json.MarshalIndent(prodct, "", "\t\t")
+
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(output)
+	return
+}
+
+}
