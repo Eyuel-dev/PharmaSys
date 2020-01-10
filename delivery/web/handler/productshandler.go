@@ -127,3 +127,31 @@ func (ach *AdminProductHandler) Deleteproduct(w http.ResponseWriter, r *http.Req
 }
 
 }
+func (ach *AdminProductHandler) Storeproducts(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	l := r.ContentLength
+	body := make([]byte, l)
+	r.Body.Read(body)
+	prodct := &entity.Products{}
+
+	err := json.Unmarshal(body, prodct)
+
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+
+	prodct, errs := ach.prodSrv.StoreProduct(prodct)
+
+	if len(errs) > 0 {
+		w.Header().Set("Content-Type", "application/json")
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+
+	p := fmt.Sprintf("/v1/admin/comments/%d", prodct.ID)
+	w.Header().Set("Location", p)
+	w.WriteHeader(http.StatusCreated)
+	return
+}
