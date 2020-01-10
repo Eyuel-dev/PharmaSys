@@ -25,6 +25,12 @@ type prods struct {
 	Image string
 }
 
+type user struct {
+	Id       int
+	username string
+	password string
+}
+
 func index(w http.ResponseWriter, r *http.Request) {
 	//products, err := prodService.Products()
 	// if err != nil {
@@ -80,14 +86,14 @@ func auth(w http.ResponseWriter, r *http.Request) {
 		pass := r.FormValue("pass")
 		var username string
 		var password string
-		sqlStatement := `SELECT username, password FROM admins WHERE username = $1, password = $2;`
+		sqlStatement := `SELECT username, password FROM admins WHERE username = $1 AND password = $2;`
 		row := db.QueryRow(sqlStatement, name, pass)
 		// if err != nil {
 		// 	panic(err)
 		// }
 		row.Scan(&username, &password)
 		if username == name && password == pass {
-			tmpl.ExecuteTemplate(w, "author.html", username)
+			http.Redirect(w, r, "/", http.StatusSeeOther)
 			fmt.Printf("Hello %s", username)
 
 		}
@@ -112,7 +118,6 @@ func search(w http.ResponseWriter, r *http.Request) {
 		var itemImg string
 		var itemPrc string
 		row.Scan(&itemID, &itemName, &itemDesc, &itemPrc, &itemImg)
-		fmt.Println(itemName)
 		srcItem := prods{itemID, itemName, itemDesc, itemPrc, itemImg}
 		ps = append(ps, srcItem)
 		if itemName == item {
