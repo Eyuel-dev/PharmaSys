@@ -37,3 +37,37 @@ w.Header().Set("Content-Type","application/json")
 w.Write(output)
 return
 }
+func (ach *AdminProductHandler) Getsingleproduct(w http.ResponseWriter, r *http.Request) {
+		//id, err := strconv.Atoi(ps.ByName("id"))
+		id, ok := r.URL.Query()["id"]
+
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+
+	prods, err := ach.prodSrv.Product(id)
+	
+
+	if len(errs) > 0 {
+		w.Header().Set("Content-Type", "application/json")
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+
+	output, err := json.MarshalIndent(comment, "", "\t\t")
+
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(output)
+	return
+}
+	
+}
+func (ach *AdminProductHandler) Updateproduct(w http.ResponseWriter, r *http.Request) {
