@@ -73,30 +73,32 @@ func abt(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "about.layout", nil)
 }
 
-func authorize(w http.ResponseWriter, r *http.Request) {
+func auth(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
-		// name :=
-		// pass := r.FormValue("pass")
-		sqlStatement := "Select username, password from admins"
-		row, err := db.Query(sqlStatement)
-		if err != nil {
-			panic(err)
-		}
-		var n string
-		var p string
-
-		err = row.Scan(&n, &p)
-		if err != nil {
-			fmt.Println("No rows were returned!")
-		} else if r.FormValue("user") == n && r.FormValue("pass") == p {
-			// http.Redirect(w, r, "/delivery/web/templates/index.layout", http.StatusFound)
-			fmt.Printf("Hello %s", n)
-		} else {
-			fmt.Println("Wrong user or password")
+		r.ParseForm()
+		name := r.FormValue("user")
+		pass := r.FormValue("pass")
+		var username string
+		var password string
+		sqlStatement := `SELECT username, password FROM admins WHERE username = $1, password = $2;`
+		row := db.QueryRow(sqlStatement, name, pass)
+		// if err != nil {
+		// 	panic(err)
+		// }
+		row.Scan(&username, &password)
+		if username == name && password == pass {
+			tmpl.ExecuteTemplate(w, "author.html", username)
+			fmt.Printf("Hello %s", username)
 
 		}
-
 	}
+}
+
+func search(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	key := "search"
+	var item = r.FormValue(key)
+	tmpl.ExecuteTemplate(w, "search.html", item)
 }
 
 func dbConn() (db *sql.DB) {
@@ -155,7 +157,8 @@ func main() {
 	http.HandleFunc("/categories", cats)
 	http.HandleFunc("/about", abt)
 	http.HandleFunc("/login", login)
-	http.HandleFunc("/auth", authorize)
+	http.HandleFunc("/auth", auth)
+	http.HandleFunc("/search", search)
 	http.ListenAndServe(":8080", nil)
 
 	db.Close()

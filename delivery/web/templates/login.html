@@ -6,15 +6,11 @@
     </head>
     <body>
         <h2> Admin Log in</h2>
-        <form method="POST" action="/auth" enctype="multipart/form-data">
-            <label for="name">
-                Username:
-            </label>
-            <input type="text" name="user">
-            <label >Password: </label>
-            <input type="password" name="pass">
+        <form method="POST" action="/auth">
+             Username:<input type="text" name="user">
+            Password: <input type="password" name="pass">
             <input type="submit" value="Log In">
-        </form>
+            </form>
         
     </body>
 </html>
