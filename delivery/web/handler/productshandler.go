@@ -19,10 +19,21 @@ func NewAdminProductHandler(T *template.Template, PS menu.ProductService) *Admin
 }
 
 // AdminProducts handle requests
-func (ach *AdminProductHandler) AdminProducts(w http.ResponseWriter, r *http.Request) {
+func (ach *AdminProductHandler) Products(w http.ResponseWriter, r *http.Request) {
+	
 	prods, err := ach.prodSrv.Products()
-	if err != nil {
-		panic(err)
-	}
-	ach.tmpl.ExecuteTemplate(w, "index.layout", prods)
+	if err != nil{
+	w.Header().Set("Content-Type","application/json")
+	http.Error(w,http.StatusText(http.StatusNotFound),http.StatusNotFound)
+	return
+}
+output,errr := json.MarshalIndent(prods,"","\t\t")
+if errr!=nil{
+	w.Header().Set("Content-Type","application/json")
+	http.Error(w,http.StatusText(http.StatusNotFound),http.StatusNotFound)
+	return
+}
+w.Header().Set("Content-Type","application/json")
+w.Write(output)
+return
 }
