@@ -97,8 +97,22 @@ func auth(w http.ResponseWriter, r *http.Request) {
 func search(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	key := "search"
-	var item = r.FormValue(key)
-	tmpl.ExecuteTemplate(w, "search.html", item)
+	var item string
+	item = r.FormValue(key)
+	sql := "select id, name, description, price, image from products where name = '$1';"
+	row := db.QueryRow(sql, item)
+	var itemID int
+	var itemName string
+	var itemDesc string
+	var itemImg string
+	var itemPrc string
+	row.Scan(&itemID, &itemName, &itemDesc, &itemPrc, &itemImg)
+	srcItem := prods{itemID, itemName, itemDesc, itemPrc, itemImg}
+	// if itemName == item{
+	tmpl.ExecuteTemplate(w, "search.html", srcItem)
+	// 	}else{
+	// 		tmpl.ExecuteTemplate(w, "search.html", "Item not found")
+	// 	}
 }
 
 func dbConn() (db *sql.DB) {

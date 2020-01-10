@@ -1,5 +1,9 @@
 {{ template "navbar" }}
-
-<p> {{. }} </p>
+{{ range . }}
+<p> {{ .Name }} </p>
+<p>{{ .Descr }}</p>
+<p> {{ .Price }} </p>
+<img src="assets/img/products/{{ .Image }}" alt="">
+{{ end }} 
 
 {{ template "footer" }}
