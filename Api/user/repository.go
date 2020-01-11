@@ -13,8 +13,8 @@ type ProductRepository interface {
 
 // UserRepository - user related operations
 type UserRepository interface {
-	Users() ([]entity.User, []error)
+	//Users() ([]entity.User, []error)
 	User(user *entity.User) (*entity.User, []error)
-	AuthenticateUser(user string, password string) (*entity.User, error)
-	GetUser(username string) (*entity.User, error)
+	// AuthenticateUser(user string, password string) (*entity.User, error)
+	// GetUser(username string) (*entity.User, error)
 }

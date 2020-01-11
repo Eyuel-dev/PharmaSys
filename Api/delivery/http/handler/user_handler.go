@@ -50,3 +50,34 @@ func (uh *userHandler) GetUser(w http.ResponseWriter, r *http.Request, _ httprou
 	w.Write(output)
 	return
 }
+func (uh *userHandler) Login(w http.ResponseWriter, r *http.Request) {
+	if uh.alreadyLoggedIn(r) {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
+	if r.Method == http.MethodPost {
+
+		userName := r.FormValue("uname")
+		password := r.FormValue("psw")
+
+		_, err := uh.userSrv.AuthenticateUser(userName, password)
+		if err != nil {
+			//panic(err)
+			http.Error(w, "hey check what u wrote please", 404)
+		}
+
+		sID, _ := uuid.NewV4()
+		c := &http.Cookie{
+			Name:  "session",
+			Value: sID.String(),
+		}
+		http.SetCookie(w, c)
+		dbSessions[c.Value] = userName
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+
+		return
+
+	}
+	uh.tmpl.ExecuteTemplate(w, "login.html", nil)
+}

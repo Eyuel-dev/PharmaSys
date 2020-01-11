@@ -3,46 +3,19 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/jinzhu/gorm"
+	"github.com/julienschmidt/httprouter"
 	"html/template"
 	"net/http"
 
 	_ "github.com/lib/pq"
 	"gitlab.com/username/carefirst/api/delivery/http/handler"
+	"gitlab.com/username/carefirst/api/menu/repository"
+	"gitlab.com/username/carefirst/api/menu/services"
 )
 
 // var categoryService *services.CategoryService
 // var prodService *services.ProductService
-
-var db *sql.DB
-
-type prods struct {
-	ID    int
-	Name  string
-	Descr string
-	Price string
-	Image string
-}
-
-func dbConn() (db *sql.DB) {
-	db, err := sql.Open("postgres", "postgres://postgres:8811@localhost/productsdb?sslmode=disable")
-
-	if err != nil {
-		panic(err)
-	}
-
-	if err = db.Ping(); err != nil {
-		panic(err)
-	}
-
-	//defer db.Close()
-	fmt.Println("DB Connected sucessfully !")
-	return db
-
-}
-
-func init() {
-	db = dbConn()
-}
 
 // 	categoryService = services.NewCategoryService("category.gob")
 // 	categories := []entity.Categories{
@@ -65,6 +38,12 @@ func init() {
 // }
 
 func main() {
+	db, err := gorm.Open("postgres", "postgres://postgres:8811@localhost/productsdb?sslmode=disable")
+
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
 
 	// tmpl := template.Must(template.ParseGlob("delivery/web/templates/*"))
 
@@ -72,17 +51,21 @@ func main() {
 	// prodServ := services.NewProdServiceImpl(prodRepo)
 
 	// prodHandler := handler.NewAdminProductHandler(tmpl, prodServ)
-	var tmpl = template.Must(template.ParseGlob("ui/templates/*"))
-	tHandler := handler.newTempHandler(tmpl)
-	fs := http.FileServer(http.Dir("delivery/web/assets"))
-	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
-	http.HandleFunc("/", tHandler.index)
-	http.HandleFunc("/categories", tHandler.cat)
-	http.HandleFunc("/about", tHandler.abt)
-	http.HandleFunc("/login", tHandler.login)
-	http.HandleFunc("/auth", tHandler.auth)
-	http.HandleFunc("/search", tHandler.search)
-	http.ListenAndServe(":8080", nil)
+	// var tmpl = template.Must(template.ParseGlob("ui/templates/*"))
+	// tHandler := handler.newTempHandler(tmpl)
+	userRep := repository.NewUserRepository(db)
+	usService := services.NewUserService(userRep)
+	usHandle := handler.NewUserHandler(usService)
+
+	// fs := http.FileServer(http.Dir("delivery/web/assets"))
+	// http.Handle("/assets/", http.StripPrefix("/assets/", fs))
+	// http.HandleFunc("/", tHandler.index)
+	// http.HandleFunc("/categories", tHandler.cat)
+	// http.HandleFunc("/about", tHandler.abt)
+	// http.HandleFunc("/login", tHandler.login)
+	// http.HandleFunc("/auth", tHandler.auth)
+	// http.HandleFunc("/search", tHandler.search)
+	// http.ListenAndServe(":8080", nil)
 
 	db.Close()
 

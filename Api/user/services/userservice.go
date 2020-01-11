@@ -3,14 +3,14 @@ package services
 import (
 	"fmt"
 	"gitlab.com/username/carefirst/api/entity"
-	"gitlab.com/username/carefirst/api/menu"
+	"gitlab.com/username/carefirst/api/user"
 )
 
 type UserService struct {
 	usRepo menu.UserRepository
 }
 
-func NewUserService(rep menu.UserRepository) *UserService {
+func NewUserService(rep user.UserRepository) *UserService {
 	return &UserService{usRepo: rep}
 }
 
