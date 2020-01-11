@@ -13,3 +13,8 @@ type ProductService interface {
 	Products() ([]entity.Products, error)
 	StoreProducts(products []entity.Products) error
 }
+
+// UserService specifies user related operations
+type UserService interface {
+	User(user *entity.User) (*entity.User, []error)
+}
