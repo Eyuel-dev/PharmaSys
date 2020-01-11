@@ -1,17 +1,14 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/julienschmidt/httprouter"
-	"html/template"
-	"net/http"
-
 	_ "github.com/lib/pq"
 	"gitlab.com/username/carefirst/api/delivery/http/handler"
-	"gitlab.com/username/carefirst/api/user/repository"
-	"gitlab.com/username/carefirst/api/user/services"
+	userRepo "gitlab.com/username/carefirst/api/user/repository"
+	userSrv "gitlab.com/username/carefirst/api/user/services"
+	"html/template"
+	"net/http"
 )
 
 // var categoryService *services.CategoryService
@@ -44,33 +41,30 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
-	router := httprouter.New()
 
 	tmpl := template.Must(template.ParseGlob("../../ui/templates/*"))
-
+	router := httprouter.New()
 	// prodRepo := repository.NewProdRepositoryImpl(dbConn)
 	// prodServ := services.NewProdServiceImpl(prodRepo)
 
 	// prodHandler := handler.NewAdminProductHandler(tmpl, prodServ)
 	// var tmpl = template.Must(template.ParseGlob("ui/templates/*"))
 	// tHandler := handler.newTempHandler(tmpl)
-	userRep := repository.NewUserRepository(db)
-	usService := services.NewUserService(userRep)
+	userRep := userRepo.NewUserRepository(db)
+	usService := userSrv.NewUserService(userRep)
 	usHandle := handler.NewUserHandler(tmpl, usService)
-
+	// router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("../../ui/assets"))))
 	router.GET("/", usHandle.Index)
 	router.POST("user/login", usHandle.Login)
 
 	// fs := http.FileServer(http.Dir("delivery/web/assets"))
 	// http.Handle("/assets/", http.StripPrefix("/assets/", fs))
-	// http.HandleFunc("/", tHandler.index)
-	// http.HandleFunc("/categories", tHandler.cat)
-	// http.HandleFunc("/about", tHandler.abt)
-	// http.HandleFunc("/login", tHandler.login)
+	// http.HandleFunc("/", usHandle.Index)
+	// // http.HandleFunc("/categories", tHandler.cat)
+	// // http.HandleFunc("/about", tHandler.abt)
+	// http.HandleFunc("/login", usHandle.Login)
 	// http.HandleFunc("/auth", tHandler.auth)
 	// http.HandleFunc("/search", tHandler.search)
 	// http.ListenAndServe(":8080", nil)
-
-	db.Close()
 
 }
