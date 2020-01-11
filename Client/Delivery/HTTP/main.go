@@ -1,10 +1,15 @@
 package main
 
 import (
+	"github.com/jinzhu/gorm"
+
 	"html/template"
 	"net/http"
 
 	_ "github.com/lib/pq"
+	"gitlab.com/username/carefirst/api/delivery/http/handler"
+	"gitlab.com/username/carefirst/api/user/repository"
+	"gitlab.com/username/carefirst/api/user/services"
 )
 
 // var categoryService *services.CategoryService
@@ -47,9 +52,23 @@ import (
 // 	prodService.StoreProducts(products)
 
 // }
-var tmpl = template.Must(template.ParseGlob("../../ui/templates/*"))
 
 func main() {
+
+	var tmpl = template.Must(template.ParseGlob("../../ui/templates/*"))
+	db, err := gorm.Open("postgres", "postgres://postgres:8811@localhost/productsdb?sslmode=disable")
+
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	userRep := repository.NewUserRepository(db)
+	usService := services.NewUserService(userRep)
+	usHandle := handler.NewUserHandler(tmpl, usService)
+
+	http.HandleFunc("/", usHandle.Index)
+	http.HandleFunc("user/login", usHandle.Login)
 	// db, err := sql.Open("postgres", "postgres://postgres:8811@localhost/productsdb?sslmode=disable")
 
 	// if err != nil {
