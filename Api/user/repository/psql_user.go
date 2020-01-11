@@ -1,8 +1,11 @@
 package repository
 
 import (
+	"errors"
 	"github.com/jinzhu/gorm"
 	"gitlab.com/username/carefirst/api/entity"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 // UserRepositoryImp implements the user interface
@@ -36,3 +39,77 @@ func (u *UserRepositoryImp) User(user *entity.User) (*entity.User, []error) {
 	}
 	return &ur, nil
 }
+
+//AuthUser ... this is a  method to authenticate a user before logining in
+func (u *UserRepositoryImp) AuthUser(user string, pass string) (*entity.User, error) {
+	usr := entity.User{}
+
+	//is there a username?
+	rows, err := u.db.Raw("SELECT * FROM  admins WHERE username = ? AND password = ?", user, pass).Rows()
+	defer rows.Close()
+
+	if rows != nil {
+		if err != nil {
+			return &usr, errors.New("username and/or password do not match")
+		}
+		for rows.Next() {
+			u.db.ScanRows(rows, &usr)
+		}
+		//does the entered password match with the stred password?
+		err = bcrypt.CompareHashAndPassword(usr.Password, []byte(pass))
+		if err != nil {
+			return &usr, errors.New("username and/or password do not match")
+		}
+		return &usr, nil
+	}
+	return &usr, errors.New("username and/or password do not match")
+
+	// //is there a username?
+	// row := uri.conn.QueryRow("SELECT * FROM users where username = $1", userName)
+
+	// user := entity.User{}
+	// if row != nil {
+	// 	err := row.Scan(&user.UserID, &user.FirstName, &user.LastName, &user.UserName, &user.Email,&user.Password, &user.Phone, &user.Image)
+	// 	if err != nil {
+	// 		return user, errors.New("username  and/or password do not match")
+	// 	}
+
+	// 	//does the entered password match with the stred password?
+	// err = bcrypt.CompareHashAndPassword(user.Password,[]byte(password))
+	// if err!= nil{
+	// 	return user,errors.New("username and/or password do not match")
+	// }
+
+	// 	return user, nil
+	// }
+	// return user, errors.New("username and/or password do not match")
+}
+
+//GetUser ...
+// func (u *UserRepositoryImpl) GetUser(userName string) (*entity.User, error) {
+// 	user := entity.User{}
+
+// 	//check username if exist reutrn users
+// 	rows, err := uri.conn.Raw("SELECT * FROM users WHERE username = ?", userName).Rows()
+// 	if rows != nil {
+// 		for rows.Next() {
+// 			uri.conn.ScanRows(rows, &user)
+// 		}
+// 		if err != nil {
+// 			return &user, err
+// 		}
+// 		return &user, nil
+// 	}
+// 	return &user, errors.New("user not found")
+
+// // check username if exist return users
+// row := uri.conn.QueryRow("SELECT * FROM users where username = $1", userName)
+// user := entity.User{}
+// if row != nil {
+// 	err := row.Scan(&user.UserID, &user.FirstName, &user.LastName, &user.UserName, &user.Email,&user.Password, &user.Phone, &user.Image)
+// 	if err != nil {
+// 		return user, err
+// 	}
+// 	return user, nil
+// }
+// return user, errors.New("user not found")

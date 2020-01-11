@@ -10,8 +10,8 @@ import (
 
 	_ "github.com/lib/pq"
 	"gitlab.com/username/carefirst/api/delivery/http/handler"
-	"gitlab.com/username/carefirst/api/menu/repository"
-	"gitlab.com/username/carefirst/api/menu/services"
+	"gitlab.com/username/carefirst/api/user/repository"
+	"gitlab.com/username/carefirst/api/user/services"
 )
 
 // var categoryService *services.CategoryService
@@ -44,8 +44,9 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
+	router := httprouter.New()
 
-	// tmpl := template.Must(template.ParseGlob("delivery/web/templates/*"))
+	tmpl := template.Must(template.ParseGlob("../../ui/templates/*"))
 
 	// prodRepo := repository.NewProdRepositoryImpl(dbConn)
 	// prodServ := services.NewProdServiceImpl(prodRepo)
@@ -55,7 +56,10 @@ func main() {
 	// tHandler := handler.newTempHandler(tmpl)
 	userRep := repository.NewUserRepository(db)
 	usService := services.NewUserService(userRep)
-	usHandle := handler.NewUserHandler(usService)
+	usHandle := handler.NewUserHandler(tmpl, usService)
+
+	router.GET("/", usHandle.Index)
+	router.POST("user/login", usHandle.Login)
 
 	// fs := http.FileServer(http.Dir("delivery/web/assets"))
 	// http.Handle("/assets/", http.StripPrefix("/assets/", fs))

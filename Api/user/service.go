@@ -1,4 +1,4 @@
-package menu
+package user
 
 import "gitlab.com/username/carefirst/api/entity"
 
@@ -14,7 +14,8 @@ import "gitlab.com/username/carefirst/api/entity"
 // 	StoreProducts(products []entity.Products) error
 // }
 
-// UserService specifies user related operations
-type UserService interface {
+// UsrService specifies user related operations
+type UsrService interface {
 	User(user *entity.User) (*entity.User, []error)
+	AuthUser(user string, pass string) (*entity.User, error)
 }

@@ -1,69 +1,69 @@
 package services
 
-import (
-	"gitlab.com/username/carefirst/client/entity"
-)
+// import (
+// 	"gitlab.com/username/carefirst/client/entity"
+// )
 
-// ProductService specifies products category services
-type ProductService interface {
-	Products() ([]entity.Products, error)
-	Product(id int) (entity.Products, error)
-	UpdateProduct(prod entity.Products) error
-	DeleteProduct(id int) error
-	StoreProduct(prod entity.Products) error
-}
-
-// ProductService represents gob implementation of menu.ProductService
-// type ProductService struct {
-// 	FileName string
+// // ProductService specifies products category services
+// type ProductService interface {
+// 	Products() ([]entity.Products, error)
+// 	Product(id int) (entity.Products, error)
+// 	UpdateProduct(prod entity.Products) error
+// 	DeleteProduct(id int) error
+// 	StoreProduct(prod entity.Products) error
 // }
 
-// // NewProductService returns new Product Service
-// func NewProductService(fileName string) *ProductService {
-// 	return &ProductService{FileName: fileName}
-// }
+// // ProductService represents gob implementation of menu.ProductService
+// // type ProductService struct {
+// // 	FileName string
+// // }
 
-// // Products returns all products read from gob file
-// func (cs ProductService) Products() ([]entity.Products, error) {
+// // // NewProductService returns new Product Service
+// // func NewProductService(fileName string) *ProductService {
+// // 	return &ProductService{FileName: fileName}
+// // }
 
-// 	raw, err := ioutil.ReadFile(cs.FileName)
+// // // Products returns all products read from gob file
+// // func (cs ProductService) Products() ([]entity.Products, error) {
 
-// 	if err != nil {
-// 		return nil, errors.New("File could not be read")
-// 	}
+// // 	raw, err := ioutil.ReadFile(cs.FileName)
 
-// 	buffer := bytes.NewBuffer(raw)
+// // 	if err != nil {
+// // 		return nil, errors.New("File could not be read")
+// // 	}
 
-// 	dec := gob.NewDecoder(buffer)
+// // 	buffer := bytes.NewBuffer(raw)
 
-// 	var ctgs []entity.Products
+// // 	dec := gob.NewDecoder(buffer)
 
-// 	err = dec.Decode(&ctgs)
+// // 	var ctgs []entity.Products
 
-// 	if err != nil {
-// 		return nil, errors.New("Decoding error")
-// 	}
+// // 	err = dec.Decode(&ctgs)
 
-// 	return ctgs, nil
-// }
+// // 	if err != nil {
+// // 		return nil, errors.New("Decoding error")
+// // 	}
 
-// // StoreProducts stores a batch of products data to the a gob file
-// func (cs ProductService) StoreProducts(ctgs []entity.Products) error {
+// // 	return ctgs, nil
+// // }
 
-// 	buffer := new(bytes.Buffer)
-// 	encoder := gob.NewEncoder(buffer)
+// // // StoreProducts stores a batch of products data to the a gob file
+// // func (cs ProductService) StoreProducts(ctgs []entity.Products) error {
 
-// 	err := encoder.Encode(ctgs)
+// // 	buffer := new(bytes.Buffer)
+// // 	encoder := gob.NewEncoder(buffer)
 
-// 	if err != nil {
-// 		return errors.New("Data encoding has failed")
-// 	}
+// // 	err := encoder.Encode(ctgs)
 
-// 	err = ioutil.WriteFile(cs.FileName, buffer.Bytes(), 0644)
+// // 	if err != nil {
+// // 		return errors.New("Data encoding has failed")
+// // 	}
 
-// 	if err != nil {
-// 		return errors.New("Writing to a file has failed")
-// 	}
+// // 	err = ioutil.WriteFile(cs.FileName, buffer.Bytes(), 0644)
 
-// 	return nil
-// }
+// // 	if err != nil {
+// // 		return errors.New("Writing to a file has failed")
+// // 	}
+
+// // 	return nil
+// // }

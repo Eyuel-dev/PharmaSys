@@ -1,9 +1,6 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
-	"gitlab.com/username/carefirst/client/delivery/http/handler"
 	"html/template"
 	"net/http"
 
@@ -13,7 +10,7 @@ import (
 // var categoryService *services.CategoryService
 // var prodService *services.ProductService
 
-var db *sql.DB
+// var db *sql.DB
 
 // type prods struct {
 // 	Id    int
@@ -50,20 +47,21 @@ var db *sql.DB
 // 	prodService.StoreProducts(products)
 
 // }
+var tmpl = template.Must(template.ParseGlob("../../ui/templates/*"))
 
 func main() {
-	db, err := sql.Open("postgres", "postgres://postgres:8811@localhost/productsdb?sslmode=disable")
+	// db, err := sql.Open("postgres", "postgres://postgres:8811@localhost/productsdb?sslmode=disable")
 
-	if err != nil {
-		panic(err)
-	}
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	if err = db.Ping(); err != nil {
-		panic(err)
-	}
+	// if err = db.Ping(); err != nil {
+	// 	panic(err)
+	// }
 
-	//defer db.Close()
-	fmt.Println("DB Connected sucessfully !")
+	// //defer db.Close()
+	// fmt.Println("DB Connected sucessfully !")
 
 	// tmpl := template.Must(template.ParseGlob("delivery/web/templates/*"))
 
@@ -71,18 +69,17 @@ func main() {
 	// prodServ := services.NewProdServiceImpl(prodRepo)
 
 	// prodHandler := handler.NewAdminProductHandler(tmpl, prodServ)
-	var tmpl = template.Must(template.ParseGlob("ui/templates/*"))
-	tHandler := handler.tempHandler(tmpl)
-	fs := http.FileServer(http.Dir("delivery/web/assets"))
+	// var tmpl = template.Must(template.ParseGlob("ui/templates/*"))
+	// tHandler := handler.tempHandler(tmpl)
+	fs := http.FileServer(http.Dir("ui/assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
-	http.HandleFunc("/", tHandler.index)
-	http.HandleFunc("/categories", tHandler.cat)
-	http.HandleFunc("/about", tHandler.abt)
-	http.HandleFunc("/login", tHandler.login)
-	http.HandleFunc("/auth", tHandler.auth)
-	http.HandleFunc("/search", tHandler.search)
+	// http.HandleFunc("/", userHandler.Index)
+	// http.HandleFunc("/", tHandler.index)
+	// http.HandleFunc("/categories", tHandler.cat)
+	// http.HandleFunc("/about", tHandler.abt)
+	// http.HandleFunc("/login", tHandler.login)
+	// http.HandleFunc("/auth", tHandler.auth)
+	// http.HandleFunc("/search", tHandler.search)
 	http.ListenAndServe(":8080", nil)
-
-	db.Close()
 
 }

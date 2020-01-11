@@ -1,17 +1,17 @@
 package services
 
-import (
-	"gitlab.com/username/carefirst/api/entity"
-)
+// import (
+// 	"gitlab.com/username/carefirst/api/entity"
+// )
 
 // ProductService specifies products category services
-type ProductService interface {
-	Products() ([]entity.Products, error)
-	Product(id int) (entity.Products, error)
-	UpdateProduct(prod entity.Products) error
-	DeleteProduct(id int) error
-	StoreProduct(prod entity.Products) error
-}
+// type ProductService interface {
+// 	Products() ([]entity.Products, error)
+// 	Product(id int) (entity.Products, error)
+// 	UpdateProduct(prod entity.Products) error
+// 	DeleteProduct(id int) error
+// 	StoreProduct(prod entity.Products) error
+// }
 
 // ProductService represents gob implementation of menu.ProductService
 // type ProductService struct {
