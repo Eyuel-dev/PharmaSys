@@ -2,17 +2,19 @@ package handler
 
 import (
 	uuid "github.com/satori/go.uuid"
-	"gitlab.com/username/CareFirst/api/user"
+	"gitlab.com/username/carefirst/api/user"
+	"html/template"
 	"net/http"
-	"text/template"
 )
 
+// Response vgbhjnkml
 type Response struct {
 	Status  string
 	Content interface{}
 }
 
-type userHandler struct {
+// UserHandler efdg
+type UserHandler struct {
 	tmpl      *template.Template
 	usService user.UsrService
 }
@@ -20,39 +22,17 @@ type userHandler struct {
 var dbSessions = map[string]string{}
 
 // NewUserHandler handles shit
-func NewUserHandler(us user.UsrService) *userHandler {
-	return &userHandler{usService: us}
+func NewUserHandler(tm *template.Template, us user.UsrService) *UserHandler {
+	return &UserHandler{tmpl: tm, usService: us}
 }
 
-// func (uh *userHandler) GetUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-// 	w.Header().Set("Content-type", "application/json")
-// 	username := r.PostFormValue("user")
-// 	password := r.PostFormValue("pass")
+//Index ... home page
+func (uh *UserHandler) Index(w http.ResponseWriter, req *http.Request) {
+	uh.tmpl.ExecuteTemplate(w, "index.layout.html", nil)
+}
 
-// 	fmt.Println(username, password)
-
-// 	usr := entity.User{Username: username, Password: password}
-// 	user, errs := uh.usService.User(&usr)
-
-// 	if len(errs) > 0 {
-// 		data, err := json.MarshalIndent(&Response{Status: "error", Content: nil}, "", "\t")
-// 		if err != nil {
-
-// 		}
-// 		http.Error(w, string(data), http.StatusNotFound)
-// 		return
-// 	}
-
-// 	output, err := json.MarshalIndent(Response{Status: "success", Content: &user}, "", "\n")
-// 	if err != nil {
-// 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-// 		return
-// 	}
-
-// 	w.Write(output)
-// 	return
-// }
-func (uh *userHandler) Login(w http.ResponseWriter, r *http.Request) {
+// Login sdfg
+func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == http.MethodPost {
 
