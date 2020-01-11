@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"gitlab.com/username/CareFirst/client/delivery/http/handler"
+	"gitlab.com/username/carefirst/client/delivery/http/handler"
 	"html/template"
 	"net/http"
 

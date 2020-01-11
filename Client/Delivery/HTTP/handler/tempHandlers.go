@@ -3,10 +3,11 @@ package handler
 import (
 	"database/sql"
 	"fmt"
+	"gitlab.com/username/CareFirst/client/menu/services"
 	"html/template"
 	"net/http"
 
-	"gitlab.com/username/CareFirst/Client/entity"
+	"gitlab.com/username/carefirst/client/entity"
 )
 
 var db *sql.DB
@@ -15,8 +16,9 @@ type tempHandler struct {
 	tmpl *template.Template
 }
 
-func newTempHandler(temp *template.Template) {
-	return &tempHandler{tmpl: temp}
+// NewTempHandler initializes and returns new temphandler
+func NewTempHandler(T *template.Template) {
+	return &tempHandler{tmpl: T}
 }
 
 func (mh *tempHandler) index(w http.ResponseWriter, r *http.Request) {
@@ -46,7 +48,7 @@ func cats(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			fmt.Println("No rows were returned!")
 		}
-		pros := prods{id, name, descr, price, img}
+		pros := entity.Products{id, name, descr, price, img}
 		ps = append(ps, pros)
 		fmt.Println(pros)
 

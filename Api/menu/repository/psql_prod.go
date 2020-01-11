@@ -4,15 +4,13 @@ import (
 	"database/sql"
 	"errors"
 
-	"gitlab.com/username/CareFirst/entity"
+	"gitlab.com/username/carefirst/api/entity"
 )
 
 // ProdRepositoryImpl implements the menu.ProductRepository interface
 type ProdRepositoryImpl struct {
 	conn *sql.DB
 }
-
-
 
 // NewProdRepositoryImpl will create an object of PsqlProdRepository
 func NewProdRepositoryImpl(Conn *sql.DB) *ProdRepositoryImpl {

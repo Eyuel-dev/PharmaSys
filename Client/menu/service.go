@@ -1,6 +1,6 @@
 package menu
 
-import "gitlab.com/username/CareFirst/client/entity"
+import "gitlab.com/username/carefirst/client/entity"
 
 // CategoryService specifies category related services
 type CategoryService interface {

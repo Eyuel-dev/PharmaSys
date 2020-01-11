@@ -1,7 +1,7 @@
 package services
 
 import (
-	"gitlab.com/username/CareFirst/entity"
+	"gitlab.com/username/carefirst/api/entity"
 )
 
 // ProductService specifies products category services

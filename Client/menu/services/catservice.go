@@ -1,8 +1,8 @@
 package services
 
 import (
-	"gitlab.com/username/CareFirst/client/entity"
-	"gitlab.com/username/CareFirst/client/menu"
+	"gitlab.com/username/carefirst/client/entity"
+	"gitlab.com/username/carefirst/client/menu"
 )
 
 // ProdServiceImpl implements menu.ProductService interface

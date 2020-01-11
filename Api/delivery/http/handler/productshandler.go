@@ -1,156 +1,155 @@
 package handler
 
-import (
-	"html/template"
-	"net/http"
-	"github/psql/lib"
-	"gitlab.com/username/CareFirst/menu"
-)
+// import (
+// 	"html/template"
+// 	"net/http"
+// 	"github/psql/lib"
+// 	"gitlab.com/username/CareFirst/menu"
+// )
 
-// AdminProductHandler handles producs
-type AdminProductHandler struct {
-	tmpl    *template.Template
-	prodSrv menu.ProductService
-}
+// // AdminProductHandler handles producs
+// type AdminProductHandler struct {
+// 	tmpl    *template.Template
+// 	prodSrv menu.ProductService
+// }
 
-// NewAdminProductHandler initializes and returns new AdminProductHandler
-func NewAdminProductHandler(T *template.Template, PS menu.ProductService) *AdminProductHandler {
-	return &AdminProductHandler{tmpl: T, prodSrv: PS}
-}
+// // NewAdminProductHandler initializes and returns new AdminProductHandler
+// func NewAdminProductHandler(T *template.Template, PS menu.ProductService) *AdminProductHandler {
+// 	return &AdminProductHandler{tmpl: T, prodSrv: PS}
+// }
 
-// AdminProducts handle requests
-func (ach *AdminProductHandler) Products(w http.ResponseWriter, r *http.Request) {
-	
-	prods, err := ach.prodSrv.Products()
-	if err != nil{
-	w.Header().Set("Content-Type","application/json")
-	http.Error(w,http.StatusText(http.StatusNotFound),http.StatusNotFound)
-	return
-}
-output,errr := json.MarshalIndent(prods,"","\t\t")
-if errr!=nil{
-	w.Header().Set("Content-Type","application/json")
-	http.Error(w,http.StatusText(http.StatusNotFound),http.StatusNotFound)
-	return
-}
-w.Header().Set("Content-Type","application/json")
-w.Write(output)
-return
-}
-func (ach *AdminProductHandler) Getsingleproduct(w http.ResponseWriter, r *http.Request) {
-		//id, err := strconv.Atoi(ps.ByName("id"))
-		id, ok := r.URL.Query()["id"]
+// // AdminProducts handle requests
+// func (ach *AdminProductHandler) Products(w http.ResponseWriter, r *http.Request) {
 
-	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
+// 	prods, err := ach.prodSrv.Products()
+// 	if err != nil{
+// 	w.Header().Set("Content-Type","application/json")
+// 	http.Error(w,http.StatusText(http.StatusNotFound),http.StatusNotFound)
+// 	return
+// }
+// output,errr := json.MarshalIndent(prods,"","\t\t")
+// if errr!=nil{
+// 	w.Header().Set("Content-Type","application/json")
+// 	http.Error(w,http.StatusText(http.StatusNotFound),http.StatusNotFound)
+// 	return
+// }
+// w.Header().Set("Content-Type","application/json")
+// w.Write(output)
+// return
+// }
+// func (ach *AdminProductHandler) Getsingleproduct(w http.ResponseWriter, r *http.Request) {
+// 		//id, err := strconv.Atoi(ps.ByName("id"))
+// 		id, ok := r.URL.Query()["id"]
 
-	prodc, err := ach.prodSrv.Product(id)
-	
+// 	if err != nil {
+// 		w.Header().Set("Content-Type", "application/json")
+// 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+// 		return
+// 	}
 
-	if len(errs) > 0 {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
+// 	prodc, err := ach.prodSrv.Product(id)
 
-	output, err := json.MarshalIndent(prodc, "", "\t\t")
+// 	if len(errs) > 0 {
+// 		w.Header().Set("Content-Type", "application/json")
+// 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+// 		return
+// 	}
 
-	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
+// 	output, err := json.MarshalIndent(prodc, "", "\t\t")
 
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(output)
-	return
-}
-	
-}
-func (ach *AdminProductHandler) Updateproduct(w http.ResponseWriter, r *http.Request) {
+// 	if err != nil {
+// 		w.Header().Set("Content-Type", "application/json")
+// 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+// 		return
+// 	}
 
-	l := r.ContentLength
+// 	w.Header().Set("Content-Type", "application/json")
+// 	w.Write(output)
+// 	return
+// }
 
-	body := make([]byte, l)
+// }
+// func (ach *AdminProductHandler) Updateproduct(w http.ResponseWriter, r *http.Request) {
 
-	r.Body.Read(body)
+// 	l := r.ContentLength
 
-	json.Unmarshal(body, &prodct)
+// 	body := make([]byte, l)
 
-	prodct, err := ach.prodSrv.Updateproduct(prodct)
+// 	r.Body.Read(body)
 
-	if len(errs) > 0 {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
+// 	json.Unmarshal(body, &prodct)
 
-	output, err := json.MarshalIndent(prodct, "", "\t\t")
+// 	prodct, err := ach.prodSrv.Updateproduct(prodct)
 
-	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
+// 	if len(errs) > 0 {
+// 		w.Header().Set("Content-Type", "application/json")
+// 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+// 		return
+// 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(output)
-	return
-}
+// 	output, err := json.MarshalIndent(prodct, "", "\t\t")
 
-}
-func (ach *AdminProductHandler) Deleteproduct(w http.ResponseWriter, r *http.Request) {
-	//id, err := strconv.Atoi(ps.ByName("id"))
-	id, ok := r.URL.Query()["id"]
+// 	if err != nil {
+// 		w.Header().Set("Content-Type", "application/json")
+// 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+// 		return
+// 	}
 
-	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
+// 	w.Header().Set("Content-Type", "application/json")
+// 	w.Write(output)
+// 	return
+// }
 
-	_, errs := ach.prodSrv.DeleteProduct(id)
+// }
+// func (ach *AdminProductHandler) Deleteproduct(w http.ResponseWriter, r *http.Request) {
+// 	//id, err := strconv.Atoi(ps.ByName("id"))
+// 	id, ok := r.URL.Query()["id"]
 
-	if len(errs) > 0 {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
+// 	if err != nil {
+// 		w.Header().Set("Content-Type", "application/json")
+// 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+// 		return
+// 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusNoContent)
-	return
-}
+// 	_, errs := ach.prodSrv.DeleteProduct(id)
 
-}
-func (ach *AdminProductHandler) Storeproducts(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+// 	if len(errs) > 0 {
+// 		w.Header().Set("Content-Type", "application/json")
+// 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+// 		return
+// 	}
 
-	l := r.ContentLength
-	body := make([]byte, l)
-	r.Body.Read(body)
-	prodct := &entity.Products{}
+// 	w.Header().Set("Content-Type", "application/json")
+// 	w.WriteHeader(http.StatusNoContent)
+// 	return
+// }
 
-	err := json.Unmarshal(body, prodct)
+// }
+// func (ach *AdminProductHandler) Storeproducts(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
-	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
+// 	l := r.ContentLength
+// 	body := make([]byte, l)
+// 	r.Body.Read(body)
+// 	prodct := &entity.Products{}
 
-	prodct, errs := ach.prodSrv.StoreProduct(prodct)
+// 	err := json.Unmarshal(body, prodct)
 
-	if len(errs) > 0 {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
+// 	if err != nil {
+// 		w.Header().Set("Content-Type", "application/json")
+// 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+// 		return
+// 	}
 
-	p := fmt.Sprintf("/v1/admin/comments/%d", prodct.ID)
-	w.Header().Set("Location", p)
-	w.WriteHeader(http.StatusCreated)
-	return
-}
+// 	prodct, errs := ach.prodSrv.StoreProduct(prodct)
+
+// 	if len(errs) > 0 {
+// 		w.Header().Set("Content-Type", "application/json")
+// 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+// 		return
+// 	}
+
+// 	p := fmt.Sprintf("/v1/admin/comments/%d", prodct.ID)
+// 	w.Header().Set("Location", p)
+// 	w.WriteHeader(http.StatusCreated)
+// 	return
+// }

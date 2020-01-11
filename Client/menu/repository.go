@@ -1,8 +1,6 @@
 package menu
 
-import (
-	"gitlab.com/username/CareFirst/client/entity"
-)
+import "gitlab.com/username/carefirst/client/entity"
 
 // ProductRepository specifies db operations for products
 type ProductRepository interface {

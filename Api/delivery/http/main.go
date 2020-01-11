@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	_ "github.com/lib/pq"
-	"gitlab.com/username/CareFirst/delivery/http/handler"
+	"gitlab.com/username/carefirst/api/delivery/http/handler"
 )
 
 // var categoryService *services.CategoryService
@@ -16,7 +16,7 @@ import (
 var db *sql.DB
 
 type prods struct {
-	Id    int
+	ID    int
 	Name  string
 	Descr string
 	Price string
