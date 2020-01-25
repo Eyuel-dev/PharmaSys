@@ -42,7 +42,7 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		_, err := uh.usService.AuthUser(userName, password)
 		if err != nil {
 			//panic(err)
-			http.Error(w, "hey check what u wrote please", 404)
+			http.Error(w, "Fail!", 404)
 		}
 
 		sID, _ := uuid.NewV4()

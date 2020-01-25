@@ -1,15 +1,17 @@
 package main
 
 import (
-	"github.com/jinzhu/gorm"
+	"github.com/gorilla/mux"
+	//"github.com/jinzhu/gorm"
+	//"github.com/julienschmidt/httprouter"
 
 	"html/template"
 	"net/http"
 
-	_ "github.com/lib/pq"
-	"gitlab.com/username/carefirst/api/delivery/http/handler"
-	"gitlab.com/username/carefirst/api/user/repository"
-	"gitlab.com/username/carefirst/api/user/services"
+	//_ "github.com/lib/pq"
+	// "gitlab.com/username/carefirst/api/user/repository"
+	// "gitlab.com/username/carefirst/api/user/services"
+	"gitlab.com/username/carefirst/client/delivery/http/handler"
 )
 
 // var categoryService *services.CategoryService
@@ -53,22 +55,23 @@ import (
 
 // }
 
+var tmpl = template.Must(template.ParseGlob("../../ui/templates/*"))
+
 func main() {
 
-	var tmpl = template.Must(template.ParseGlob("../../ui/templates/*"))
-	db, err := gorm.Open("postgres", "postgres://postgres:8811@localhost/productsdb?sslmode=disable")
+	// db, err := gorm.Open("postgres", "postgres://postgres:8811@localhost/productsdb?sslmode=disable")
 
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// defer db.Close()
 
-	userRep := repository.NewUserRepository(db)
-	usService := services.NewUserService(userRep)
-	usHandle := handler.NewUserHandler(tmpl, usService)
+	// userRep := repository.NewUserRepository(db)
+	// usService := services.NewUserService(userRep)
+	// usHandle := handler.NewUserHandler(tmpl, usService)
 
-	http.HandleFunc("/", usHandle.Index)
-	http.HandleFunc("user/login", usHandle.Login)
+	// http.HandleFunc("/", index)
+	// http.HandleFunc("user/login", usHandle.Login)
 	// db, err := sql.Open("postgres", "postgres://postgres:8811@localhost/productsdb?sslmode=disable")
 
 	// if err != nil {
@@ -90,15 +93,19 @@ func main() {
 	// prodHandler := handler.NewAdminProductHandler(tmpl, prodServ)
 	// var tmpl = template.Must(template.ParseGlob("ui/templates/*"))
 	// tHandler := handler.tempHandler(tmpl)
-	fs := http.FileServer(http.Dir("ui/assets"))
-	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
-	// http.HandleFunc("/", userHandler.Index)
+	// fs := http.FileServer(http.Dir("ui/assets"))
+	// http.Handle("/assets/", http.StripPrefix("/assets/", fs))
+	router := mux.NewRouter()
+	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("../../ui/assets"))))
+
+	usrHandler := handler.NewUserHandler(tmpl)
+	router.HandleFunc("/", usrHandler.Index)
 	// http.HandleFunc("/", tHandler.index)
 	// http.HandleFunc("/categories", tHandler.cat)
 	// http.HandleFunc("/about", tHandler.abt)
 	// http.HandleFunc("/login", tHandler.login)
 	// http.HandleFunc("/auth", tHandler.auth)
 	// http.HandleFunc("/search", tHandler.search)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8080", router)
 
 }

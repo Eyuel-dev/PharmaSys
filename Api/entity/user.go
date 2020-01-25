@@ -2,6 +2,6 @@ package entity
 
 // User struct represents the users
 type User struct {
-	Username string
-	Password []byte
+	Username string `json: "username"`
+	Password []byte `json: "password"`
 }
