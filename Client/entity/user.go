@@ -1,6 +1,6 @@
 package entity
 
-// User struct represents the users
+// User struct
 type User struct {
 	ID       uint   `json:"id"`
 	Username string `json:"username"`

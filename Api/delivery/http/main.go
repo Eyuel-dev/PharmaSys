@@ -42,7 +42,7 @@ func main() {
 	}
 	defer db.Close()
 
-	tmpl := template.Must(template.ParseGlob("../../ui/templates/*"))
+	//tmpl := template.Must(template.ParseGlob("../../ui/templates/*"))
 	router := httprouter.New()
 	// prodRepo := repository.NewProdRepositoryImpl(dbConn)
 	// prodServ := services.NewProdServiceImpl(prodRepo)
@@ -52,10 +52,10 @@ func main() {
 	// tHandler := handler.newTempHandler(tmpl)
 	userRep := userRepo.NewUserRepository(db)
 	usService := userSrv.NewUserService(userRep)
-	usHandle := handler.NewUserHandler(tmpl, usService)
+	usHandle := handler.NewUserHandler(usService)
 	// router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("../../ui/assets"))))
-	router.GET("/", usHandle.Index)
-	router.POST("user/login", usHandle.Login)
+
+	router.POST("v1/user", usHandle.GetUser)
 
 	// fs := http.FileServer(http.Dir("delivery/web/assets"))
 	// http.Handle("/assets/", http.StripPrefix("/assets/", fs))
@@ -65,6 +65,6 @@ func main() {
 	// http.HandleFunc("/login", usHandle.Login)
 	// http.HandleFunc("/auth", tHandler.auth)
 	// http.HandleFunc("/search", tHandler.search)
-	// http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8181", router)
 
 }

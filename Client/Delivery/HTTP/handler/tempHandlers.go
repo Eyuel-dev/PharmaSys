@@ -21,6 +21,14 @@ package handler
 // 	return &tempHandler{tmpl: T}
 // }
 
+// func (mh *tempHandler) index(w http.ResponseWriter, r *http.Request) {
+// 	//products, err := prodService.Products()
+// 	// if err != nil {
+// 	// 	panic(err)
+// 	// }
+// 	mh.tmpl.ExecuteTemplate(w, "index.layout", nil)
+// }
+
 // func cats(w http.ResponseWriter, r *http.Request) {
 // 	//categories, err := categoryService.Categories()
 // 	ps := make([]entity.Products, 0)

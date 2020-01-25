@@ -1,4 +1,4 @@
-package menu
+package service
 
 // import "gitlab.com/username/carefirst/client/entity"
 
