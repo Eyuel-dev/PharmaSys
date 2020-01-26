@@ -2,8 +2,8 @@ package repository
 
 import (
 	//"errors"
+	"github.com/Eyuel-dev/PharmaSys/api/entity"
 	"github.com/jinzhu/gorm"
-	"gitlab.com/username/carefirst/api/entity"
 	//"golang.org/x/crypto/bcrypt"
 )
 

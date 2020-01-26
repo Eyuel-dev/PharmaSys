@@ -1,6 +1,6 @@
 package user
 
-import "github.com/username/carefirst/api/entity"
+import "github.com/Eyuel-dev/PharmaSys/api/entity"
 
 // // ProductRepository specifies db operations for products
 // type ProductRepository interface {

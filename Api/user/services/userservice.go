@@ -2,8 +2,8 @@ package services
 
 import (
 	"fmt"
-	"github.com/username/carefirst/api/entity"
-	"github.com/username/carefirst/api/user"
+	"github.com/Eyuel-dev/PharmaSys/api/entity"
+	"github.com/Eyuel-dev/PharmaSys/api/user"
 )
 
 // UserService hebdnmkf

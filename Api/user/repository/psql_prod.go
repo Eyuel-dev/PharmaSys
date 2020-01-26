@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 
-	"gitlab.com/username/carefirst/api/entity"
+	"github.com/Eyuel-dev/PharmaSys/api/entity"
 )
 
 // ProdRepositoryImpl implements the menu.ProductRepository interface

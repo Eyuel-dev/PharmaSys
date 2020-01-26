@@ -23,6 +23,7 @@ func main() {
 	usrHandler := handler.NewUserHandler(tmpl)
 	router.HandleFunc("/", usrHandler.Index)
 	router.HandleFunc("/login", usrHandler.Login)
+	router.HandleFunc("/categories", usrHandler.Category)
 	//router.HandleFunc("/auth", usrHandler.Auth)
 	// http.HandleFunc("/", tHandler.index)
 	// http.HandleFunc("/categories", tHandler.cat)
