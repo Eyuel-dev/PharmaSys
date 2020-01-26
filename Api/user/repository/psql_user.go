@@ -3,7 +3,7 @@ package repository
 import (
 	//"errors"
 	"github.com/jinzhu/gorm"
-	"github.com/username/carefirst/api/entity"
+	"gitlab.com/username/carefirst/api/entity"
 	//"golang.org/x/crypto/bcrypt"
 )
 

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	uuid "github.com/satori/go.uuid"
-	"github.com/username/CareFirst/api/entity"
-	"github.com/username/carefirst/api/user"
+	"gitlab.com/username/CareFirst/api/entity"
+	"gitlab.com/username/carefirst/api/user"
 	"html/template"
 	"net/http"
 )
