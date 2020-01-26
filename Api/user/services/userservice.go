@@ -2,8 +2,8 @@ package services
 
 import (
 	"fmt"
-	"gitlab.com/username/carefirst/api/entity"
-	"gitlab.com/username/carefirst/api/user"
+	"github.com/username/carefirst/api/entity"
+	"github.com/username/carefirst/api/user"
 )
 
 // UserService hebdnmkf
@@ -27,10 +27,10 @@ func (u *UserService) User(user *entity.User) (*entity.User, []error) {
 }
 
 //AuthUser ... checks username and password validity
-func (u *UserService) AuthUser(userName string, password string) (*entity.User, error) {
-	user, err := u.usRepo.AuthUser(userName, password)
-	if err != nil {
-		return user, err
-	}
-	return user, nil
-}
+// func (u *UserService) AuthUser(userName string, password string) (*entity.User, error) {
+// 	user, err := u.usRepo.AuthUser(userName, password)
+// 	if err != nil {
+// 		return user, err
+// 	}
+// 	return user, nil
+// }

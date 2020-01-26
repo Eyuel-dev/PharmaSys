@@ -2,9 +2,8 @@ package handler
 
 import (
 	"fmt"
-	"gitlab.com/username/CareFirst/client/entity"
-	"gitlab.com/username/CareFirst/client/service"
-	"pkg/mod/golang.org/x/tools@v0.0.0-20191230220329-2aa90c603ae3/godoc/redirect"
+	"github.com/username/CareFirst/client/entity"
+	"github.com/username/CareFirst/client/service"
 	"strconv"
 	//"github.com/julienschmidt/httprouter"
 	//uuid "github.com/satori/go.uuid"
@@ -55,7 +54,7 @@ func (u *UserHandler) Auth(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			//panic(err)
 			if err.Error() == "error" {
-				u.tmpl.redirect(w, "login.html", "Username/password is incorrect!")
+				u.tmpl.ExecuteTemplate(w, "login.html", "Username/password is incorrect!")
 				return
 			}
 		} else {

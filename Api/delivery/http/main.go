@@ -4,9 +4,9 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
-	"gitlab.com/username/carefirst/api/delivery/http/handler"
-	userRepo "gitlab.com/username/carefirst/api/user/repository"
-	userSrv "gitlab.com/username/carefirst/api/user/services"
+	"github.com/username/carefirst/api/delivery/http/handler"
+	userRepo "github.com/username/carefirst/api/user/repository"
+	userSrv "github.com/username/carefirst/api/user/services"
 	"html/template"
 	"net/http"
 )

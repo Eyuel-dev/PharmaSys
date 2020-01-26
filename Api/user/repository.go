@@ -1,6 +1,6 @@
 package user
 
-import "gitlab.com/username/carefirst/api/entity"
+import "github.com/username/carefirst/api/entity"
 
 // // ProductRepository specifies db operations for products
 // type ProductRepository interface {
@@ -15,7 +15,7 @@ import "gitlab.com/username/carefirst/api/entity"
 type UsrRepository interface {
 	//Users() ([]entity.User, []error)
 	User(user *entity.User) (*entity.User, []error)
-	AuthUser(user string, pass string) (*entity.User, error)
+	//AuthUser(user string, pass string) (*entity.User, error)
 	// AuthenticateUser(user string, password string) (*entity.User, error)
 	// GetUser(username string) (*entity.User, error)
 }

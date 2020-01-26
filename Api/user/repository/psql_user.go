@@ -1,11 +1,10 @@
 package repository
 
 import (
-	"errors"
+	//"errors"
 	"github.com/jinzhu/gorm"
-	"gitlab.com/username/carefirst/api/entity"
-
-	"golang.org/x/crypto/bcrypt"
+	"github.com/username/carefirst/api/entity"
+	//"golang.org/x/crypto/bcrypt"
 )
 
 // UserRepositoryImp implements the user interface
@@ -41,49 +40,49 @@ func (u *UserRepositoryImp) User(user *entity.User) (*entity.User, []error) {
 }
 
 //AuthUser ... this is a  method to authenticate a user before logining in
-func (u *UserRepositoryImp) AuthUser(user string, pass string) (*entity.User, error) {
-	usr := entity.User{}
+// func (u *UserRepositoryImp) AuthUser(user string, pass string) (*entity.User, error) {
+// 	usr := entity.User{}
 
-	//is there a username?
-	rows, err := u.db.Raw("SELECT * FROM  admins WHERE username = ? AND password = ?", user, pass).Rows()
-	defer rows.Close()
+// 	//is there a username?
+// 	rows, err := u.db.Raw("SELECT * FROM  admins WHERE username = ? AND password = ?", user, pass).Rows()
+// 	defer rows.Close()
 
-	if rows != nil {
-		if err != nil {
-			return &usr, errors.New("username and/or password do not match")
-		}
-		for rows.Next() {
-			u.db.ScanRows(rows, &usr)
-		}
-		//does the entered password match with the stred password?
-		err = bcrypt.CompareHashAndPassword(usr.Password, []byte(pass))
-		if err != nil {
-			return &usr, errors.New("username and/or password do not match")
-		}
-		return &usr, nil
-	}
-	return &usr, errors.New("username and/or password do not match")
+// 	if rows != nil {
+// 		if err != nil {
+// 			return &usr, errors.New("username and/or password do not match")
+// 		}
+// 		for rows.Next() {
+// 			u.db.ScanRows(rows, &usr)
+// 		}
+// 		//does the entered password match with the stred password?
+// 		err = bcrypt.CompareHashAndPassword(usr.Password, []byte(pass))
+// 		if err != nil {
+// 			return &usr, errors.New("username and/or password do not match")
+// 		}
+// 		return &usr, nil
+// 	}
+// 	return &usr, errors.New("username and/or password do not match")
 
-	// //is there a username?
-	// row := uri.conn.QueryRow("SELECT * FROM users where username = $1", userName)
+// //is there a username?
+// row := uri.conn.QueryRow("SELECT * FROM users where username = $1", userName)
 
-	// user := entity.User{}
-	// if row != nil {
-	// 	err := row.Scan(&user.UserID, &user.FirstName, &user.LastName, &user.UserName, &user.Email,&user.Password, &user.Phone, &user.Image)
-	// 	if err != nil {
-	// 		return user, errors.New("username  and/or password do not match")
-	// 	}
+// user := entity.User{}
+// if row != nil {
+// 	err := row.Scan(&user.UserID, &user.FirstName, &user.LastName, &user.UserName, &user.Email,&user.Password, &user.Phone, &user.Image)
+// 	if err != nil {
+// 		return user, errors.New("username  and/or password do not match")
+// 	}
 
-	// 	//does the entered password match with the stred password?
-	// err = bcrypt.CompareHashAndPassword(user.Password,[]byte(password))
-	// if err!= nil{
-	// 	return user,errors.New("username and/or password do not match")
-	// }
+// 	//does the entered password match with the stred password?
+// err = bcrypt.CompareHashAndPassword(user.Password,[]byte(password))
+// if err!= nil{
+// 	return user,errors.New("username and/or password do not match")
+// }
 
-	// 	return user, nil
-	// }
-	// return user, errors.New("username and/or password do not match")
-}
+// 	return user, nil
+// }
+// return user, errors.New("username and/or password do not match")
+//}
 
 //GetUser ...
 // func (u *UserRepositoryImpl) GetUser(userName string) (*entity.User, error) {

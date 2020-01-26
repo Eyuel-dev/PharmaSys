@@ -4,26 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"gitlab.com/username/CareFirst/client/entity"
+	"github.com/username/CareFirst/client/entity"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"time"
 )
-
-// import "gitlab.com/username/carefirst/client/entity"
-
-// // CategoryService specifies category related services
-// type CategoryService interface {
-// 	Categories() ([]entity.Categories, error)
-// 	StoreCategores(categories []entity.Categories) error
-// }
-
-// // ProductService specifies product related services
-// type ProductService interface {
-// 	Products() ([]entity.Products, error)
-// 	StoreProducts(products []entity.Products) error
-// }
 
 type cookie struct {
 	Key    string
@@ -32,7 +18,7 @@ type cookie struct {
 
 var logged = make([]cookie, 10)
 
-const loURL string = "http://localhost:8080/v1/"
+const loURL string = "http://localhost:8080/v1"
 
 // GetUser gets user
 func GetUser(user *entity.User) (*entity.User, error) {

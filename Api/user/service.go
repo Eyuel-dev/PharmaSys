@@ -1,6 +1,6 @@
 package user
 
-import "gitlab.com/username/carefirst/api/entity"
+import "github.com/username/carefirst/api/entity"
 
 // // CategoryService specifies category related services
 // type CategoryService interface {
@@ -17,5 +17,5 @@ import "gitlab.com/username/carefirst/api/entity"
 // UsrService specifies user related operations
 type UsrService interface {
 	User(user *entity.User) (*entity.User, []error)
-	AuthUser(user string, pass string) (*entity.User, error)
+	//AuthUser(user string, pass string) (*entity.User, error)
 }
