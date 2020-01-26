@@ -32,7 +32,7 @@ func NewUserRepository(con *gorm.DB) *UserRepositoryImp {
 // User gets username
 func (u *UserRepositoryImp) User(user *entity.User) (*entity.User, []error) {
 	ur := entity.User{}
-	row := u.db.Where("username = ? AND password = ?", user.Username, user.Password).First(&user).GetErrors()
+	row := u.db.Table("admins").Select("username, password").Where("username = ? AND password = ?", user.Username, user.Password).First(&ur).GetErrors()
 	if len(row) > 0 {
 		return nil, row
 	}

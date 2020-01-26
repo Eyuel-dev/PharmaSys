@@ -3,10 +3,11 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	uuid "github.com/satori/go.uuid"
-	"gitlab.com/username/CareFirst/api/entity"
-	"gitlab.com/username/carefirst/api/user"
-	"html/template"
+	"github.com/Eyuel-dev/PharmaSys/api/entity"
+	"github.com/Eyuel-dev/PharmaSys/api/user"
+	"github.com/julienschmidt/httprouter"
+	// uuid "github.com/satori/go.uuid"
+	// "html/template"
 	"net/http"
 )
 
@@ -21,14 +22,12 @@ type UserHandler struct {
 	usService user.UsrService
 }
 
-var dbSessions = map[string]string{}
-
 // NewUserHandler handles shit
 func NewUserHandler(us user.UsrService) *UserHandler {
 	return &UserHandler{usService: us}
 }
 
-// get user
+// GetUser get user
 func (uh *UserHandler) GetUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	w.Header().Set("Content-type", "application/json")
 	username := r.PostFormValue("user")
@@ -40,7 +39,7 @@ func (uh *UserHandler) GetUser(w http.ResponseWriter, r *http.Request, _ httprou
 	user, errs := uh.usService.User(&usr)
 
 	if len(errs) > 0 {
-		data, err := json.MarshalIndent(&response{Status: "error", Content: nil}, "", "\t")
+		data, err := json.MarshalIndent(&Response{Status: "error", Content: nil}, "", "\t")
 		if err != nil {
 
 		}
@@ -48,7 +47,7 @@ func (uh *UserHandler) GetUser(w http.ResponseWriter, r *http.Request, _ httprou
 		return
 	}
 
-	output, err := json.MarshalIndent(response{Status: "success", Content: &user}, "", "\n")
+	output, err := json.MarshalIndent(Response{Status: "success", Content: &user}, "", "\n")
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return

@@ -2,12 +2,14 @@ package main
 
 import (
 	"github.com/Eyuel-dev/PharmaSys/api/delivery/http/handler"
+	searchRepo "github.com/Eyuel-dev/PharmaSys/api/search/repository"
+	searchSrv "github.com/Eyuel-dev/PharmaSys/api/search/services"
 	userRepo "github.com/Eyuel-dev/PharmaSys/api/user/repository"
 	userSrv "github.com/Eyuel-dev/PharmaSys/api/user/services"
 	"github.com/jinzhu/gorm"
 	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
-	"html/template"
+
 	"net/http"
 )
 
@@ -53,9 +55,14 @@ func main() {
 	userRep := userRepo.NewUserRepository(db)
 	usService := userSrv.NewUserService(userRep)
 	usHandle := handler.NewUserHandler(usService)
+
+	srchRepo := searchRepo.NewSrchRepository(db)
+	srchSrv := searchSrv.NewSrchService(srchRepo)
+	srchHandle := handler.NewSearchHandler(srchSrv)
 	// router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("../../ui/assets"))))
 
-	router.POST("v1/user", usHandle.GetUser)
+	router.POST("/v1/user", usHandle.GetUser)
+	router.GET("/v1/item", srchHandle.GetItem)
 
 	// fs := http.FileServer(http.Dir("delivery/web/assets"))
 	// http.Handle("/assets/", http.StripPrefix("/assets/", fs))

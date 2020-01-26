@@ -8,24 +8,15 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"time"
 )
 
-type cookie struct {
-	Key    string
-	Expire time.Time
-}
+const lURL string = "http://localhost:8181/v1/"
 
-var logged = make([]cookie, 10)
-
-const loURL string = "http://localhost:8181/v1/"
-
-// GetUser gets user
-func GetUser(user *entity.User) (*entity.User, error) {
-	URL := fmt.Sprintf("%s%s", loURL, "user")
+// GetItem gets item
+func GetItem(prod *entity.Product) (*entity.Product, error) {
+	URL := fmt.Sprintf("%s%s", lURL, "item")
 	formval := url.Values{}
-	formval.Add("username", user.Username)
-	formval.Add("password", user.Password)
+	formval.Add("search", prod.Name)
 	resp, err := http.PostForm(URL, formval)
 	if err != nil {
 		fmt.Println(err)
@@ -39,7 +30,7 @@ func GetUser(user *entity.User) (*entity.User, error) {
 	}
 	respjson := struct {
 		Status  string
-		Content entity.User
+		Content entity.Product
 	}{}
 	err = json.Unmarshal(body, &respjson)
 	fmt.Println(respjson)

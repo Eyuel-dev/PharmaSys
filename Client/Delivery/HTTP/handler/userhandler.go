@@ -1,10 +1,10 @@
 package handler
 
 import (
-	// "fmt"
-	// "github.com/Eyuel-dev/PharmaSys/client/entity"
-	// "github.com/Eyuel-dev/PharmaSys/client/service"
-	// "strconv"
+	"fmt"
+	"github.com/Eyuel-dev/PharmaSys/client/entity"
+	"github.com/Eyuel-dev/PharmaSys/client/service"
+	"strconv"
 	//"github.com/julienschmidt/httprouter"
 	//uuid "github.com/satori/go.uuid"
 	//"gitlab.com/username/carefirst/api/entity"
@@ -42,34 +42,53 @@ func (u *UserHandler) Category(w http.ResponseWriter, r *http.Request) {
 }
 
 // Auth handle request on route /login
-// func (u *UserHandler) Auth(w http.ResponseWriter, r *http.Request) {
+func (u *UserHandler) Auth(w http.ResponseWriter, r *http.Request) {
 
-// 	if r.Method == http.MethodPost {
+	if r.Method == http.MethodPost {
 
-// 		username := r.PostFormValue("user")
-// 		password := r.PostFormValue("pass")
-// 		user := entity.User{Username: username, Password: password}
-// 		fmt.Println(user)
-// 		resp, err := service.GetUser(&user)
-// 		// _, err := u.usSrv.AuthUser(username, password)
-// 		if err != nil {
-// 			//panic(err)
-// 			if err.Error() == "error" {
-// 				u.tmpl.ExecuteTemplate(w, "login.html", "Username/password is incorrect!")
-// 				return
-// 			}
-// 		} else {
-// 			cookie := http.Cookie{
-// 				Name:     "user",
-// 				Value:    strconv.Itoa(int(resp.ID)),
-// 				MaxAge:   60 * 3,
-// 				Path:     "/",
-// 				HttpOnly: true,
-// 			}
-// 			http.SetCookie(w, &cookie)
-// 			u.tmpl.ExecuteTemplate(w, "index.layout", nil)
-// 		}
+		username := r.PostFormValue("user")
+		password := r.PostFormValue("pass")
+		user := entity.User{Username: username, Password: password}
+		fmt.Println(user)
+		resp, err := service.GetUser(&user)
+		// _, err := u.usSrv.AuthUser(username, password)
+		if err != nil {
+			//panic(err)
+			if err.Error() == "error" {
+				u.tmpl.ExecuteTemplate(w, "login.html", "Username/password is incorrect!")
+				return
+			}
+		} else {
+			cookie := http.Cookie{
+				Name:     "user",
+				Value:    strconv.Itoa(int(resp.ID)),
+				MaxAge:   60 * 3,
+				Path:     "/",
+				HttpOnly: true,
+			}
+			http.SetCookie(w, &cookie)
+			u.tmpl.ExecuteTemplate(w, "index.layout", nil)
+		}
 
-// 	}
+	}
 
-// }
+}
+
+// Search searches an item
+func (u *UserHandler) Search(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		name := r.FormValue("search")
+		prod := entity.Product{Name: name}
+		fmt.Println(prod)
+		resp, err := service.GetItem(&prod)
+		if err != nil {
+			//panic(err)
+			if err.Error() == "error" {
+				u.tmpl.ExecuteTemplate(w, "search.html", "Username/password is incorrect!")
+				return
+			}
+		} else {
+			u.tmpl.ExecuteTemplate(w, "search.html", resp)
+		}
+	}
+}

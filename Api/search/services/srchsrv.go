@@ -2,8 +2,8 @@ package services
 
 import (
 	"fmt"
-	"gitlab.com/username/carefirst/api/entity"
-	"gitlab.com/username/carefirst/api/search"
+	"github.com/Eyuel-dev/PharmaSys/api/entity"
+	"github.com/Eyuel-dev/PharmaSys/api/search"
 )
 
 // SrchServiceImpl implements search.SrchService
@@ -16,9 +16,9 @@ func NewSrchService(rep search.SrchRepository) *SrchServiceImpl {
 	return &SrchServiceImpl{sRepo: rep}
 }
 
-// SearchItem gets searched item
-func (s *SrchServiceImpl) SearchItem(item *entity.Products) (*entity.Products, []error) {
-	srchitems, errs := s.sRepo.SearchItem(item)
+// Item gets searched item
+func (s *SrchServiceImpl) Item(item *entity.Product) (*entity.Product, []error) {
+	srchitems, errs := s.sRepo.Item(item)
 	fmt.Println(errs)
 	if len(errs) > 0 {
 		return nil, errs
