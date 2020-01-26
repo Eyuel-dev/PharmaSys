@@ -1,12 +1,12 @@
 package main
 
 import (
+	"github.com/Eyuel-dev/PharmaSys/api/delivery/http/handler"
+	userRepo "github.com/Eyuel-dev/PharmaSys/api/user/repository"
+	userSrv "github.com/Eyuel-dev/PharmaSys/api/user/services"
 	"github.com/jinzhu/gorm"
 	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
-	"gitlab.com/username/carefirst/api/delivery/http/handler"
-	userRepo "gitlab.com/username/carefirst/api/user/repository"
-	userSrv "gitlab.com/username/carefirst/api/user/services"
 	"html/template"
 	"net/http"
 )

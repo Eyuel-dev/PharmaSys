@@ -10,7 +10,7 @@ import (
 	//_ "github.com/lib/pq"
 	// "gitlab.com/username/carefirst/api/user/repository"
 	// "gitlab.com/username/carefirst/api/user/services"
-	"github.com/username/carefirst/client/delivery/http/handler"
+	"github.com/Eyuel-dev/PharmaSys/client/delivery/http/handler"
 )
 
 var tmpl = template.Must(template.ParseGlob("../../ui/templates/*"))
@@ -23,7 +23,7 @@ func main() {
 	usrHandler := handler.NewUserHandler(tmpl)
 	router.HandleFunc("/", usrHandler.Index)
 	router.HandleFunc("/login", usrHandler.Login)
-	router.HandleFunc("/auth", usrHandler.Auth)
+	//router.HandleFunc("/auth", usrHandler.Auth)
 	// http.HandleFunc("/", tHandler.index)
 	// http.HandleFunc("/categories", tHandler.cat)
 	// http.HandleFunc("/about", tHandler.abt)

@@ -2,8 +2,8 @@ package handler
 
 import (
 	"fmt"
-	"gitlab.com/username/CareFirst/client/entity"
-	"gitlab.com/username/CareFirst/client/service"
+	"github.com/Eyuel-dev/PharmaSys/client/entity"
+	"github.com/Eyuel-dev/PharmaSys/client/service"
 	"strconv"
 	//"github.com/julienschmidt/httprouter"
 	//uuid "github.com/satori/go.uuid"

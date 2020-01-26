@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"gitlab.com/username/CareFirst/client/entity"
+	"github.com/Eyuel-dev/PharmaSys/client/entity"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -18,7 +18,7 @@ type cookie struct {
 
 var logged = make([]cookie, 10)
 
-const loURL string = "http://localhost:8080/v1"
+const loURL string = "http://localhost:8080"
 
 // GetUser gets user
 func GetUser(user *entity.User) (*entity.User, error) {
