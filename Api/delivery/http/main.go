@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/Eyuel-dev/PharmaSys/api/delivery/http/handler"
+	//"github.com/Eyuel-dev/PharmaSys/api/entity"
 	searchRepo "github.com/Eyuel-dev/PharmaSys/api/search/repository"
 	searchSrv "github.com/Eyuel-dev/PharmaSys/api/search/services"
 	userRepo "github.com/Eyuel-dev/PharmaSys/api/user/repository"
@@ -43,6 +44,11 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
+	// errs := db.CreateTable(&entity.User{}).GetErrors()
+
+	// if len(errs) > 0 {
+	// 	panic(errs)
+	// }
 
 	//tmpl := template.Must(template.ParseGlob("../../ui/templates/*"))
 	router := httprouter.New()

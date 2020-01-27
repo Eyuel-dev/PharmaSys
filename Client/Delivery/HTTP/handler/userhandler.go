@@ -41,6 +41,29 @@ func (u *UserHandler) Category(w http.ResponseWriter, r *http.Request) {
 	u.tmpl.ExecuteTemplate(w, "cat.layout", nil)
 }
 
+func (u *UserHandler) Frag(w http.ResponseWriter, r *http.Request) {
+	u.tmpl.ExecuteTemplate(w, "frag.html", nil)
+}
+
+func (u *UserHandler) Diab(w http.ResponseWriter, r *http.Request) {
+	u.tmpl.ExecuteTemplate(w, "diabetes.html", nil)
+}
+func (u *UserHandler) Makeup(w http.ResponseWriter, r *http.Request) {
+	u.tmpl.ExecuteTemplate(w, "makeup.html", nil)
+}
+
+func (u *UserHandler) Eyecare(w http.ResponseWriter, r *http.Request) {
+	u.tmpl.ExecuteTemplate(w, "eye.html", nil)
+}
+
+func (u *UserHandler) BabyDiap(w http.ResponseWriter, r *http.Request) {
+	u.tmpl.ExecuteTemplate(w, "diap.html", nil)
+}
+
+func (u *UserHandler) BabyFood(w http.ResponseWriter, r *http.Request) {
+	u.tmpl.ExecuteTemplate(w, "babyfood.html", nil)
+}
+
 // Auth handle request on route /login
 func (u *UserHandler) Auth(w http.ResponseWriter, r *http.Request) {
 

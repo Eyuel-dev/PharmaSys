@@ -1,12 +1,35 @@
 {{ define "cat-content" }}
 <h1></h1>
     
-    {{ range . }}
+
+<ul>
+    <li>Beauty
+        <ul>
+            <li><a href="/frag"> Fragrances</a></li>
+            <li><a href="/make"> Makeup products</a></li>
+        </ul>
+    </li>
+
+    <li>Child & Baby care
+        <ul>
+            <li><a href="/shit"> Diapers & wipes</a></li>
+            <li><a href="/feed">Feeding & Nursing</a></li>
+        </ul>
+    </li>
+    <li>Medicine
+        <ul>
+            <li><a href="/diab"> Diabetes</a></li>
+            <li><a href="/eye">Eye care </a></li>
+        </ul>
+    </li>
+</ul>
+
+    <!-- {{ range . }}
     <p>{{ .Id }} {{ .Name }}</p>
     <p>{{ .Descr }} </p>
     <p>{{ .Price }}</p>
     <img src="assets/img/products/{{ .Image }}" alt="">
-    {{ end }}
+    {{ end }} -->
 
 
 {{ end }}
