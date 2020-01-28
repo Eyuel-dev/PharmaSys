@@ -30,14 +30,23 @@ func NewUserRepository(con *gorm.DB) *UserRepositoryImp {
 // }
 
 // User gets username
-func (u *UserRepositoryImp) User(user *entity.User) (*entity.User, []error) {
-	ur := entity.User{}
-	row := u.db.Where("username = ? AND password = ?", user.Username, user.Password).Scan(&ur).GetErrors()
-	if len(row) > 0 {
-		return nil, row
+func (userRepo *UserRepositoryImp) User(user *entity.User) (*entity.User, []error) {
+	users := entity.User{}
+	errs := userRepo.db.Where("username = ? AND password = ?", user.Username, user.Password).Find(&users).GetErrors()
+	if len(errs) > 0 {
+		return nil, errs
 	}
-	return &ur, nil
+	return &users, errs
 }
+
+// func (u *UserRepositoryImp) User(user *entity.User) (*entity.User, []error) {
+// 	ur := []entity.User{}
+// 	row := u.db.Where("username = ? AND password = ?", user.Username, user.Password).Scan(&ur).GetErrors()
+// 	if len(row) > 0 {
+// 		return nil, row
+// 	}
+// 	return &ur, nil
+// }
 
 //AuthUser ... this is a  method to authenticate a user before logining in
 // func (u *UserRepositoryImp) AuthUser(user string, pass string) (*entity.User, error) {

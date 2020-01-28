@@ -1,4 +1,8 @@
 {{ template "navbar" }}
+
+    {{ if "Not Found" }}
+        <p>Item not found</p>
+    {{ else }}
         {{ range . }}
         <p> {{ .Id}} {{ .Name }}</p>
         <p>{{ .Descr }} </p>
@@ -6,5 +10,6 @@
         <img src="assets/img/products/{{ .Image }}" alt="">
         {{ end }}
     </body>
+    {{ end }}
 {{ template "footer"}}
 

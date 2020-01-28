@@ -16,11 +16,17 @@ func NewSrchRepository(con *gorm.DB) *SrchRepositoryImp {
 }
 
 // Item implements db operations
-func (u *SrchRepositoryImp) Item(item *entity.Product) (*entity.Product, []error) {
+func (u *SrchRepositoryImp) Item(item string) (*entity.Product, error) {
 	it := entity.Product{}
-	row := u.db.Where("name = ?", item.Name).First(&item).GetErrors()
-	if len(row) > 0 {
-		return nil, row
+	rows, err := u.db.Raw("Select * from products where name = ?", item).Rows()
+	if rows != nil {
+		for rows.Next() {
+			u.db.ScanRows(rows, &it)
+		}
+		if err != nil {
+			return &it, err
+		}
+		return &it, nil
 	}
 	return &it, nil
 }

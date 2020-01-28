@@ -50,14 +50,13 @@ func main() {
 	// 	panic(errs)
 	// }
 
-	//tmpl := template.Must(template.ParseGlob("../../ui/templates/*"))
-	router := httprouter.New()
-	// prodRepo := repository.NewProdRepositoryImpl(dbConn)
-	// prodServ := services.NewProdServiceImpl(prodRepo)
+	// errs := db.CreateTable(&entity.Product{}).GetErrors()
 
-	// prodHandler := handler.NewAdminProductHandler(tmpl, prodServ)
-	// var tmpl = template.Must(template.ParseGlob("ui/templates/*"))
-	// tHandler := handler.newTempHandler(tmpl)
+	// if len(errs) > 0 {
+	// 	panic(errs)
+	// }
+
+	router := httprouter.New()
 	userRep := userRepo.NewUserRepository(db)
 	usService := userSrv.NewUserService(userRep)
 	usHandle := handler.NewUserHandler(usService)
@@ -65,19 +64,9 @@ func main() {
 	srchRepo := searchRepo.NewSrchRepository(db)
 	srchSrv := searchSrv.NewSrchService(srchRepo)
 	srchHandle := handler.NewSearchHandler(srchSrv)
-	// router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("../../ui/assets"))))
 
 	router.POST("/v1/user", usHandle.GetUser)
 	router.GET("/v1/item", srchHandle.GetItem)
-
-	// fs := http.FileServer(http.Dir("delivery/web/assets"))
-	// http.Handle("/assets/", http.StripPrefix("/assets/", fs))
-	// http.HandleFunc("/", usHandle.Index)
-	// // http.HandleFunc("/categories", tHandler.cat)
-	// // http.HandleFunc("/about", tHandler.abt)
-	// http.HandleFunc("/login", usHandle.Login)
-	// http.HandleFunc("/auth", tHandler.auth)
-	// http.HandleFunc("/search", tHandler.search)
 	http.ListenAndServe(":8181", router)
 
 }

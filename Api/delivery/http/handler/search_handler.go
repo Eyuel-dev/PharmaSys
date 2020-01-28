@@ -3,7 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Eyuel-dev/PharmaSys/api/entity"
+	//"github.com/Eyuel-dev/PharmaSys/api/entity"
 	"github.com/Eyuel-dev/PharmaSys/api/search"
 	"github.com/julienschmidt/httprouter"
 	"net/http"
@@ -31,10 +31,10 @@ func (sh *SearchHandler) GetItem(w http.ResponseWriter, r *http.Request, _ httpr
 
 	fmt.Println(name)
 
-	srchitem := entity.Product{Name: name}
-	srch, errs := sh.srchServ.Item(&srchitem)
+	//srchitem := entity.Product{Name: name}
+	srch, err := sh.srchServ.Item(name)
 
-	if len(errs) > 0 {
+	if err != nil {
 		data, err := json.MarshalIndent(&Response{Status: "error", Content: nil}, "", "\t")
 		if err != nil {
 

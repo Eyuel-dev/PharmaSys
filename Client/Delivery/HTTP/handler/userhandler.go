@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/Eyuel-dev/PharmaSys/client/entity"
 	"github.com/Eyuel-dev/PharmaSys/client/service"
+
 	"strconv"
 	//"github.com/julienschmidt/httprouter"
 	//uuid "github.com/satori/go.uuid"
@@ -68,20 +69,20 @@ func (u *UserHandler) BabyFood(w http.ResponseWriter, r *http.Request) {
 func (u *UserHandler) Auth(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == http.MethodPost {
-
-		username := r.PostFormValue("user")
-		password := r.PostFormValue("pass")
+		err := r.ParseForm()
+		username := r.FormValue("user")
+		password := r.FormValue("pass")
 		user := entity.User{Username: username, Password: password}
 		fmt.Println(user)
 		resp, err := service.GetUser(&user)
 		// _, err := u.usSrv.AuthUser(username, password)
 		if err != nil {
-			//panic(err)
 			if err.Error() == "error" {
-				u.tmpl.ExecuteTemplate(w, "login.html", "Username/password is incorrect!")
+				u.tmpl.ExecuteTemplate(w, "login.html", "either username or password incorrect")
 				return
 			}
 		} else {
+
 			cookie := http.Cookie{
 				Name:     "user",
 				Value:    strconv.Itoa(int(resp.ID)),
@@ -89,13 +90,40 @@ func (u *UserHandler) Auth(w http.ResponseWriter, r *http.Request) {
 				Path:     "/",
 				HttpOnly: true,
 			}
+
 			http.SetCookie(w, &cookie)
-			u.tmpl.ExecuteTemplate(w, "index.layout", nil)
+			u.tmpl.ExecuteTemplate(w, "/", resp)
+			// uh.templ.ExecuteTemplate(w, "indexmainauth.layout", data)
+
 		}
-
 	}
-
 }
+
+// // handles search requests
+// func (uh *UserHandler) Search(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Println("inside Search method..")
+// 	if r.Method == http.MethodPost {
+// 		fmt.Println("inside Search Get method..")
+// 		uh.templ.ExecuteTemplate(w, "login.layout", nil)
+// 	} else if r.Method == http.MethodGet {
+// 		fmt.Println("inside Search post method..")
+// 		search := r.FormValue("category")
+// 		fmt.Println(search)
+// 		// jobs := entity.Job{Category: search}
+// 		// fmt.Println(jobs)
+// 		resp, err := service.GetJobs(search)
+// 		if err != nil {
+// 			if err.Error() == "error" {
+// 				uh.templ.ExecuteTemplate(w, "login.html", "either username or password incorrect")
+// 				return
+// 			}
+// 		} else {
+// 			fmt.Println(resp)
+// 			uh.templ.ExecuteTemplate(w, "/", resp)
+
+// 		}
+// 	}
+// }
 
 // Search searches an item
 func (u *UserHandler) Search(w http.ResponseWriter, r *http.Request) {
@@ -107,7 +135,7 @@ func (u *UserHandler) Search(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			//panic(err)
 			if err.Error() == "error" {
-				u.tmpl.ExecuteTemplate(w, "search.html", "Username/password is incorrect!")
+				u.tmpl.ExecuteTemplate(w, "search.html", "Not Found")
 				return
 			}
 		} else {

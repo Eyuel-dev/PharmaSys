@@ -17,11 +17,11 @@ func NewSrchService(rep search.SrchRepository) *SrchServiceImpl {
 }
 
 // Item gets searched item
-func (s *SrchServiceImpl) Item(item *entity.Product) (*entity.Product, []error) {
-	srchitems, errs := s.sRepo.Item(item)
-	fmt.Println(errs)
-	if len(errs) > 0 {
-		return nil, errs
+func (s *SrchServiceImpl) Item(item string) (*entity.Product, error) {
+	srchitems, err := s.sRepo.Item(item)
+	fmt.Println(err)
+	if err != nil {
+		return nil, err
 	}
 	return srchitems, nil
 }
