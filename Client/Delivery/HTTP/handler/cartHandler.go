@@ -69,9 +69,10 @@ func AddToCart(w http.ResponseWriter, r *http.Request) {
 			})
 		} else {
 			cart[index].Quantity++
-			bytesCart, _ := json.Marshal(cart)
-			session.Values["cart"] = string(bytesCart)
 		}
+		bytesCart, _ := json.Marshal(cart)
+		session.Values["cart"] = string(bytesCart)
+
 	}
 	session.Save(r, w)
 	http.Redirect(w, r, "/cart", http.StatusSeeOther)

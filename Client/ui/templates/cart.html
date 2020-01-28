@@ -27,8 +27,8 @@
                 <td>{{ .Product.Description }}</td>
                 <td>{{ .Product.Category }}</td>
                 <td>{{ .Quantity }}</td>
-                <td>{{total .}}</td>
             </tr>
+            {{ end }}
             <tr>
                 <td colspan="5" align="right"> Total</td>
                 <td> {{ .total }}</td>
