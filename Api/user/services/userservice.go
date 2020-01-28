@@ -25,12 +25,3 @@ func (u *UserService) User(user string, pass string) []entity.User {
 	}
 	return us
 }
-
-//AuthUser ... checks username and password validity
-// func (u *UserService) AuthUser(userName string, password string) (*entity.User, error) {
-// 	user, err := u.usRepo.AuthUser(userName, password)
-// 	if err != nil {
-// 		return user, err
-// 	}
-// 	return user, nil
-// }

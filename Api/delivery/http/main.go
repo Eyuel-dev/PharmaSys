@@ -1,14 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"github.com/Eyuel-dev/PharmaSys/api/delivery/http/handler"
-	//"github.com/Eyuel-dev/PharmaSys/api/entity"
 	searchRepo "github.com/Eyuel-dev/PharmaSys/api/search/repository"
 	searchSrv "github.com/Eyuel-dev/PharmaSys/api/search/services"
 	userRepo "github.com/Eyuel-dev/PharmaSys/api/user/repository"
 	userSrv "github.com/Eyuel-dev/PharmaSys/api/user/services"
-	//"github.com/jinzhu/gorm"
-	"database/sql"
 	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
 
@@ -22,17 +20,6 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
-	// errs := db.CreateTable(&entity.User{}).GetErrors()
-
-	// if len(errs) > 0 {
-	// 	panic(errs)
-	// }
-
-	// errs := db.CreateTable(&entity.Product{}).GetErrors()
-
-	// if len(errs) > 0 {
-	// 	panic(errs)
-	// }
 
 	router := httprouter.New()
 	userRep := userRepo.NewUserRepository(db)

@@ -41,17 +41,3 @@ func (u *SrchRepositoryImp) Item(item string) []entity.Product {
 	}
 	return ps
 }
-
-// it := entity.Product{}
-// rows
-// rows, err := u.db.Raw("Select * from products where name = ?", item).Rows()
-// if rows != nil {
-// 	for rows.Next() {
-// 		u.db.ScanRows(rows, &it)
-// 	}
-// 	if err != nil {
-// 		return &it, err
-// 	}
-// 	return &it, nil
-// }
-// return &it, nil

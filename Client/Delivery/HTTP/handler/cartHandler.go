@@ -10,20 +10,22 @@ import (
 	"strconv"
 )
 
+// CartHandler handles cart related requests
 type CartHandler struct {
 	tmpl *template.Template
 }
 
 //var dbSessions = map[string]string{} //session ID,user ID
 
-//NewUserHandler initializes and returns new UserHandler
+//NewCartHandler initializes and returns new UserHandler
 func NewCartHandler(Temp *template.Template) *CartHandler {
 	return &CartHandler{tmpl: Temp}
 }
 
 var store = sessions.NewCookieStore([]byte("mysession"))
 
-func Index(w http.ResponseWriter, r *http.Request) {
+// Index returns shopping cart page
+func (u *CartHandler) Index(w http.ResponseWriter, r *http.Request) {
 	session, _ := store.Get(r, "mysession")
 	strcart := session.Values["cart"].(string)
 	var cart []entity.Item
@@ -40,10 +42,11 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	tmp.Execute(w, data)
 }
 
-func AddToCart(w http.ResponseWriter, r *http.Request) {
+// AddToCart adds items to shopping cart
+func (u *CartHandler) AddToCart(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	strId := query.Get("id")
-	id, _ := strconv.ParseInt(strId, 10, 64)
+	strID := query.Get("id")
+	id, _ := strconv.ParseInt(strID, 10, 64)
 	var prodModel cart.CartService
 	product, _ := prodModel.Find(id)
 	session, _ := store.Get(r, "mysession")

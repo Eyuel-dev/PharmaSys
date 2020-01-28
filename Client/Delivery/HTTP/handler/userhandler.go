@@ -5,22 +5,15 @@ import (
 	"github.com/Eyuel-dev/PharmaSys/client/entity"
 	"github.com/Eyuel-dev/PharmaSys/client/service"
 
-	"strconv"
-	//"github.com/julienschmidt/httprouter"
-	//uuid "github.com/satori/go.uuid"
-	//"gitlab.com/username/carefirst/api/entity"
-	//"gitlab.com/username/carefirst/api/user"
-	//"golang.org/x/crypto/bcrypt"
 	"html/template"
 	"net/http"
+	"strconv"
 )
 
 // UserHandler handles user related requests
 type UserHandler struct {
 	tmpl *template.Template
 }
-
-//var dbSessions = map[string]string{} //session ID,user ID
 
 //NewUserHandler initializes and returns new UserHandler
 func NewUserHandler(Temp *template.Template) *UserHandler {
@@ -42,25 +35,32 @@ func (u *UserHandler) Category(w http.ResponseWriter, r *http.Request) {
 	u.tmpl.ExecuteTemplate(w, "cat.layout", nil)
 }
 
+// Frag returns fragrance category
 func (u *UserHandler) Frag(w http.ResponseWriter, r *http.Request) {
 	u.tmpl.ExecuteTemplate(w, "frag.html", nil)
 }
 
+// Diab returns Diabetes category
 func (u *UserHandler) Diab(w http.ResponseWriter, r *http.Request) {
 	u.tmpl.ExecuteTemplate(w, "diabetes.html", nil)
 }
+
+// Makeup returns Makeup category
 func (u *UserHandler) Makeup(w http.ResponseWriter, r *http.Request) {
 	u.tmpl.ExecuteTemplate(w, "makeup.html", nil)
 }
 
+// Eyecare returns Eye care category
 func (u *UserHandler) Eyecare(w http.ResponseWriter, r *http.Request) {
 	u.tmpl.ExecuteTemplate(w, "eye.html", nil)
 }
 
+// BabyDiap returns  Baby care category
 func (u *UserHandler) BabyDiap(w http.ResponseWriter, r *http.Request) {
 	u.tmpl.ExecuteTemplate(w, "diap.html", nil)
 }
 
+// BabyFood returns Baby care category
 func (u *UserHandler) BabyFood(w http.ResponseWriter, r *http.Request) {
 	u.tmpl.ExecuteTemplate(w, "babyfood.html", nil)
 }
@@ -72,10 +72,8 @@ func (u *UserHandler) Auth(w http.ResponseWriter, r *http.Request) {
 		err := r.ParseForm()
 		username := r.FormValue("user")
 		password := r.FormValue("pass")
-		//user := entity.User{Username: username, Password: password}
 		fmt.Println(username, password)
 		resp, err := service.GetUser(username, password)
-		// _, err := u.usSrv.AuthUser(username, password)
 		if err != nil {
 			if err.Error() == "error" {
 				u.tmpl.ExecuteTemplate(w, "login.html", "either username or password incorrect")
