@@ -8,7 +8,7 @@ import (
 
 // UserService hebdnmkf
 type UserService struct {
-	usRepo user.UsrService
+	usRepo user.UsrRepository
 }
 
 // NewUserService bhedfnjgm
@@ -17,13 +17,13 @@ func NewUserService(rep user.UsrRepository) *UserService {
 }
 
 // User gets a user
-func (u *UserService) User(user *entity.User) (*entity.User, []error) {
-	us, errs := u.usRepo.User(user)
-	fmt.Println(errs)
-	if len(errs) > 0 {
-		return nil, errs
+func (u *UserService) User(user string, pass string) []entity.User {
+	us := u.usRepo.User(user, pass)
+	fmt.Println(us)
+	if len(us) > 0 {
+		return nil
 	}
-	return us, nil
+	return us
 }
 
 //AuthUser ... checks username and password validity

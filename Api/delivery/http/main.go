@@ -7,38 +7,16 @@ import (
 	searchSrv "github.com/Eyuel-dev/PharmaSys/api/search/services"
 	userRepo "github.com/Eyuel-dev/PharmaSys/api/user/repository"
 	userSrv "github.com/Eyuel-dev/PharmaSys/api/user/services"
-	"github.com/jinzhu/gorm"
+	//"github.com/jinzhu/gorm"
+	"database/sql"
 	"github.com/julienschmidt/httprouter"
 	_ "github.com/lib/pq"
 
 	"net/http"
 )
 
-// var categoryService *services.CategoryService
-// var prodService *services.ProductService
-
-// 	categoryService = services.NewCategoryService("category.gob")
-// 	categories := []entity.Categories{
-// 		entity.Categories{ID: 1, Name: "Medicine", Image: "bkt.png"},
-// 		entity.Categories{ID: 2, Name: "Beauty & Skincare", Image: "lnc.png"},
-// 		entity.Categories{ID: 3, Name: "Oral Health", Image: "dnr.png"},
-// 		entity.Categories{ID: 4, Name: "Baby products", Image: "snk.png"},
-// 	}
-// 	categoryService.StoreCategories(categories)
-
-// 	prodService = services.NewProductService("products.gob")
-// 	products := []entity.Products{
-// 		entity.Products{ID: 1, Name: "Gliclazide", Image: "diabetes/glic.jpg", Price: 12.5, Description: "Gliclazide is an oral antihyperglycemic agent used for the treatment of non-insulin-dependet diabetes melitus."},
-// 		entity.Products{ID: 2, Name: "Combigan", Image: "eyedrops/combigan.jpg", Price: 20.50, Description: "Combigan eye drops are used to treat open-angle glaucoma or ocular hypertension."},
-// 		entity.Products{ID: 3, Name: "Dental Floss", Image: "oral/dentak.jpg", Price: 5.89, Description: "Premier Value Dental Floss"},
-// 		entity.Products{ID: 4, Name: "Ryzodeg", Image: "eyedrops/ryzo.jpg", Price: 10.11, Description: "Ryzodeg contains a combination of insulin aspart and insulin degludec."},
-// 	}
-// 	prodService.StoreProducts(products)
-
-// }
-
 func main() {
-	db, err := gorm.Open("postgres", "postgres://postgres:8811@localhost/productsdb?sslmode=disable")
+	db, err := sql.Open("postgres", "postgres://postgres:8811@localhost/productsdb?sslmode=disable")
 
 	if err != nil {
 		panic(err)

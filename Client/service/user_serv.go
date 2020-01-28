@@ -21,11 +21,11 @@ var logged = make([]cookie, 10)
 const loURL string = "http://localhost:8181/v1/"
 
 // GetUser gets user
-func GetUser(user *entity.User) (*entity.User, error) {
+func GetUser(user string, pass string) (*entity.User, error) {
 	URL := fmt.Sprintf("%s%s", loURL, "user")
 	formval := url.Values{}
-	formval.Add("username", user.Username)
-	formval.Add("password", user.Password)
+	formval.Add("username", user)
+	formval.Add("password", pass)
 	resp, err := http.PostForm(URL, formval)
 	if err != nil {
 		fmt.Println(err)
@@ -33,6 +33,7 @@ func GetUser(user *entity.User) (*entity.User, error) {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	fmt.Println(body)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err

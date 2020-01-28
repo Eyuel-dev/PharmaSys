@@ -32,9 +32,9 @@ func (sh *SearchHandler) GetItem(w http.ResponseWriter, r *http.Request, _ httpr
 	fmt.Println(name)
 
 	//srchitem := entity.Product{Name: name}
-	srch, err := sh.srchServ.Item(name)
+	srch := sh.srchServ.Item(name)
 
-	if err != nil {
+	if srch != nil {
 		data, err := json.MarshalIndent(&Response{Status: "error", Content: nil}, "", "\t")
 		if err != nil {
 
@@ -43,7 +43,7 @@ func (sh *SearchHandler) GetItem(w http.ResponseWriter, r *http.Request, _ httpr
 		return
 	}
 
-	output, err := json.MarshalIndent(Response{Status: "success", Content: &srch}, "", "\n")
+	output, err := json.MarshalIndent(Response{Status: "success", Content: srch}, "", "\n")
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return

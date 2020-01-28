@@ -1,0 +1,41 @@
+ {{ template "navbar" }}
+
+ {{ template "cart" }}
+
+ {{ template "footer" }}
+
+ {{ define "cart" }}
+
+    <div>
+        <h3>Shopping Cart</h3>
+        <table border="1">
+            <tr>
+                <td>ID</td>
+                <td>Name</td>
+                <td>Image</td>
+                <td>Price</td>
+                <td>Description</td>
+                <td>Category</td>
+                <td>Sub total</td>
+            </tr>
+            {{ range .cart}}
+            <tr>
+                <td>{{ .Product.ID }}</td>
+                <td>{{ .Product.Name }}</td>
+                <td><img src="../assets/img/products/{{ .Product.Image }}" width="120"> </td>
+                <td>{{ .Product.Price }}</td>
+                <td>{{ .Product.Description }}</td>
+                <td>{{ .Product.Category }}</td>
+                <td>{{ .Quantity }}</td>
+                <td>{{total .}}</td>
+            </tr>
+            <tr>
+                <td colspan="5" align="right"> Total</td>
+                <td> {{ .total }}</td>
+            </tr>
+        </table>
+        <a href="/">Continue Shopping</a>
+    </div>
+
+
+ {{ end }}

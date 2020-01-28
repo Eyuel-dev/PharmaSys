@@ -1,19 +1,21 @@
 package repository
 
 import (
+	"fmt"
 	//"errors"
 	"github.com/Eyuel-dev/PharmaSys/api/entity"
-	"github.com/jinzhu/gorm"
+	//"github.com/jinzhu/gorm"
 	//"golang.org/x/crypto/bcrypt"
+	"database/sql"
 )
 
 // UserRepositoryImp implements the user interface
 type UserRepositoryImp struct {
-	db *gorm.DB
+	db *sql.DB
 }
 
 // NewUserRepository initializes and returns user repository
-func NewUserRepository(con *gorm.DB) *UserRepositoryImp {
+func NewUserRepository(con *sql.DB) *UserRepositoryImp {
 	return &UserRepositoryImp{db: con}
 }
 
@@ -30,14 +32,29 @@ func NewUserRepository(con *gorm.DB) *UserRepositoryImp {
 // }
 
 // User gets username
-func (userRepo *UserRepositoryImp) User(user *entity.User) (*entity.User, []error) {
-	users := entity.User{}
-	errs := userRepo.db.Where("username = ? AND password = ?", user.Username, user.Password).Find(&users).GetErrors()
-	if len(errs) > 0 {
-		return nil, errs
+func (userRepo *UserRepositoryImp) User(user string, pass string) []entity.User {
+	sqlStmnt := "Select username, password from users where username = $1 AND password = $2;"
+	row := userRepo.db.QueryRow(sqlStmnt, user, pass)
+	if row == nil {
+		fmt.Println("No rows were selected")
 	}
-	return &users, errs
+	var username string
+	var password string
+	ps := make([]entity.User, 0)
+	row.Scan(&username, &password)
+	if username == user && password == pass {
+		users := entity.User{Username: username, Password: password}
+		ps = append(ps, users)
+		fmt.Printf("Hello %s", username)
+	}
+	return ps
 }
+
+//	errs := userRepo.db.Where("username = ? AND password = ?", user.Username, user.Password).First(&users).GetErrors()
+// if len(errs) > 0 {
+// 	return nil, errs
+// }
+// return &users, errs
 
 // func (u *UserRepositoryImp) User(user *entity.User) (*entity.User, []error) {
 // 	ur := []entity.User{}

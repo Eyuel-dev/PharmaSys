@@ -14,7 +14,7 @@ import "github.com/Eyuel-dev/PharmaSys/api/entity"
 // UsrRepository - user related operations
 type UsrRepository interface {
 	//Users() ([]entity.User, []error)
-	User(user *entity.User) (*entity.User, []error)
+	User(user string, pass string) []entity.User
 	//AuthUser(user string, pass string) (*entity.User, error)
 	// AuthenticateUser(user string, password string) (*entity.User, error)
 	// GetUser(username string) (*entity.User, error)

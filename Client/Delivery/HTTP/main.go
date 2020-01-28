@@ -21,6 +21,7 @@ func main() {
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("../../ui/assets"))))
 
 	usrHandler := handler.NewUserHandler(tmpl)
+	//crtHandler := handler.NewCartHandler(tmpl)
 	router.HandleFunc("/", usrHandler.Index)
 	router.HandleFunc("/login", usrHandler.Login)
 	router.HandleFunc("/categories", usrHandler.Category)
@@ -32,6 +33,8 @@ func main() {
 	router.HandleFunc("/shit", usrHandler.BabyDiap)
 	router.HandleFunc("/feed", usrHandler.BabyFood)
 	router.HandleFunc("/diab", usrHandler.Diab)
+	router.HandleFunc("/cart", handler.Index)
+	router.HandleFunc("/addtocart", handler.AddToCart)
 	// http.HandleFunc("/", tHandler.index)
 	// http.HandleFunc("/categories", tHandler.cat)
 	// http.HandleFunc("/about", tHandler.abt)

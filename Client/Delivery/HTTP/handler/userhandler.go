@@ -72,9 +72,9 @@ func (u *UserHandler) Auth(w http.ResponseWriter, r *http.Request) {
 		err := r.ParseForm()
 		username := r.FormValue("user")
 		password := r.FormValue("pass")
-		user := entity.User{Username: username, Password: password}
-		fmt.Println(user)
-		resp, err := service.GetUser(&user)
+		//user := entity.User{Username: username, Password: password}
+		fmt.Println(username, password)
+		resp, err := service.GetUser(username, password)
 		// _, err := u.usSrv.AuthUser(username, password)
 		if err != nil {
 			if err.Error() == "error" {
@@ -131,7 +131,7 @@ func (u *UserHandler) Search(w http.ResponseWriter, r *http.Request) {
 		name := r.FormValue("search")
 		prod := entity.Product{Name: name}
 		fmt.Println(prod)
-		resp, err := service.GetItem(&prod)
+		resp, err := service.GetItem(name)
 		if err != nil {
 			//panic(err)
 			if err.Error() == "error" {
@@ -143,3 +143,7 @@ func (u *UserHandler) Search(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+// func (u *UserHandler) AddToCart(w http.ResponseWriter, r *http.Request) {
+
+// }

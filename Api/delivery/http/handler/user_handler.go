@@ -3,7 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Eyuel-dev/PharmaSys/api/entity"
+	//"github.com/Eyuel-dev/PharmaSys/api/entity"
 	"github.com/Eyuel-dev/PharmaSys/api/user"
 	"github.com/julienschmidt/httprouter"
 	// uuid "github.com/satori/go.uuid"
@@ -29,16 +29,17 @@ func NewUserHandler(us user.UsrService) *UserHandler {
 
 // GetUser get user
 func (uh *UserHandler) GetUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	w.Header().Set("Content-type", "application/json")
+
 	username := r.PostFormValue("user")
 	password := r.PostFormValue("pass")
 
 	fmt.Println(username, password)
 
-	usr := entity.User{Username: username, Password: password}
-	user, errs := uh.usService.User(&usr)
+	//usr := entity.User{Username: username, Password: password}
+	users := uh.usService.User(username, password)
 
-	if len(errs) > 0 {
+	if len(users) > 0 {
+		w.Header().Set("Content-type", "application/json")
 		data, err := json.MarshalIndent(&Response{Status: "error", Content: nil}, "", "\t")
 		if err != nil {
 
@@ -47,7 +48,7 @@ func (uh *UserHandler) GetUser(w http.ResponseWriter, r *http.Request, _ httprou
 		return
 	}
 
-	output, err := json.MarshalIndent(Response{Status: "success", Content: &user}, "", "\n")
+	output, err := json.MarshalIndent(Response{Status: "success", Content: users}, "", "\n")
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return

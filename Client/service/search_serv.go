@@ -13,10 +13,10 @@ import (
 const lURL string = "http://localhost:8181/v1/"
 
 // GetItem gets item
-func GetItem(prod *entity.Product) (*entity.Product, error) {
+func GetItem(prod string) (*entity.Product, error) {
 	URL := fmt.Sprintf("%s%s", lURL, "item")
 	formval := url.Values{}
-	formval.Add("search", prod.Name)
+	formval.Add("search", prod)
 	resp, err := http.PostForm(URL, formval)
 	if err != nil {
 		fmt.Println(err)
