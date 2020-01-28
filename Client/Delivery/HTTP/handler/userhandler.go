@@ -91,37 +91,10 @@ func (u *UserHandler) Auth(w http.ResponseWriter, r *http.Request) {
 
 			http.SetCookie(w, &cookie)
 			u.tmpl.ExecuteTemplate(w, "/", resp)
-			// uh.templ.ExecuteTemplate(w, "indexmainauth.layout", data)
 
 		}
 	}
 }
-
-// // handles search requests
-// func (uh *UserHandler) Search(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Println("inside Search method..")
-// 	if r.Method == http.MethodPost {
-// 		fmt.Println("inside Search Get method..")
-// 		uh.templ.ExecuteTemplate(w, "login.layout", nil)
-// 	} else if r.Method == http.MethodGet {
-// 		fmt.Println("inside Search post method..")
-// 		search := r.FormValue("category")
-// 		fmt.Println(search)
-// 		// jobs := entity.Job{Category: search}
-// 		// fmt.Println(jobs)
-// 		resp, err := service.GetJobs(search)
-// 		if err != nil {
-// 			if err.Error() == "error" {
-// 				uh.templ.ExecuteTemplate(w, "login.html", "either username or password incorrect")
-// 				return
-// 			}
-// 		} else {
-// 			fmt.Println(resp)
-// 			uh.templ.ExecuteTemplate(w, "/", resp)
-
-// 		}
-// 	}
-// }
 
 // Search searches an item
 func (u *UserHandler) Search(w http.ResponseWriter, r *http.Request) {
@@ -141,7 +114,3 @@ func (u *UserHandler) Search(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
-
-// func (u *UserHandler) AddToCart(w http.ResponseWriter, r *http.Request) {
-
-// }
